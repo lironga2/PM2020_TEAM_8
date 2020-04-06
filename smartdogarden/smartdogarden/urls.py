@@ -25,4 +25,7 @@ urlpatterns = [
     path('d_s/profile/', user_views.d_s_profile, name='d_s_profile'),
     path('d_g_a/profile/', user_views.d_g_a_profile, name='d_g_a_profile'),
     path('go_to_profile/', user_views.go_to_profile, name='go_to_profile'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('', include('home.urls')),
+
 ]

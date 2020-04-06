@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'account',
     'phone_field',
     'users.apps.UsersConfig',
+    'home.apps.HomeConfig',
+    'crispy_forms',
 
 ]
 
