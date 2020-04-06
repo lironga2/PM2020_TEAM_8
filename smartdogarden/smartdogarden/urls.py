@@ -27,5 +27,7 @@ urlpatterns = [
     path('go_to_profile/', user_views.go_to_profile, name='go_to_profile'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('', include('home.urls')),
+    path('register_dog_owner/', user_views.register_as_dog_owner, name='register_D_O'),
+    path('register_dog_sitter/', user_views.register_as_dog_sitter, name='register_D_S'),
 
 ]
