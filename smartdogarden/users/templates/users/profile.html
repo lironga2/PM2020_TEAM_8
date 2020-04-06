@@ -1,0 +1,10 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% block permission %}{% endblock permission %}
+    <h1>
+        {{ user.username }}
+    </h1>
+
+
+{% endblock content %}
