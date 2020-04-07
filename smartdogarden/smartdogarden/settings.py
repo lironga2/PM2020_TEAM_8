@@ -12,11 +12,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import pymysql
+
 pymysql.version_info = (1, 3, 13, "final", 0)
 pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -28,7 +28,6 @@ SECRET_KEY = 'lbzh*td+*ees!95_r8ap0^mwa&m&6+11n5_ml*qa1&(=ue$_2y'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -80,31 +79,32 @@ AUTH_USER_MODEL = 'account.Account'
 
 WSGI_APPLICATION = 'smartdogarden.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-#DATABASES = {
+# DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
 #        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #    }
-#}
-
-
+# }
 
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'smartdog_db',
-        'USER': 'smartdog_Site',
-        'PASSWORD': 'SiteLg91510870',
+        'NAME': 'smartdog__data_base',
+        'USER': 'smartdog__Web',
+        'PASSWORD': 'WebLg91510870',
         'HOST': 'smartdogarden.com',
         'PORT': '3306',
-    }
-}
+        'TEST': {
+            'NAME': 'smartdog__test_data_base',
+            'CREATE_DB': 'False',
 
+        },
+    },
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -123,7 +123,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -136,7 +135,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
