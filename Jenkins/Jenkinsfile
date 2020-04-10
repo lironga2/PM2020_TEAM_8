@@ -29,7 +29,7 @@ pipeline {
                    sh 'pip install pymysql'
                    sh 'pip install django-crispy-forms'
                    sh 'pip install django-phone-field'
-                   sh 'python smartdogarden/manage.py test'
+                   sh 'python smartdogarden/manage.py test home'
                }
            }
        }
