@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from users import views as user_views
 from django.contrib.auth import views as auth_views
+from gardens import views as gardens_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +30,6 @@ urlpatterns = [
     path('', include('home.urls')),
     path('register_dog_owner/', user_views.register_as_dog_owner, name='register_D_O'),
     path('register_dog_sitter/', user_views.register_as_dog_sitter, name='register_D_S'),
+    path('view_gardens/', gardens_view.view_gardens, name='view_gardens'),
 
 ]

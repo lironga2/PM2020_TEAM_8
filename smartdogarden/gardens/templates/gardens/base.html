@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% for i in list %}
+        <table>
+            <tr>
+                <td>{{ i.name }}</td>
+            </tr>
+        </table>
+    {% endfor %}
+{% endblock content %}
