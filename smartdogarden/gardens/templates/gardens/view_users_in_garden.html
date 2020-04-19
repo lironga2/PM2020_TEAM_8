@@ -1,0 +1,12 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>List of user name that in the garden</h1>
+    {% for i in list %}
+        <table>
+            <tr>
+                <td>{{ i.username }}</td>
+            </tr>
+        </table>
+    {% endfor %}
+{% endblock content %}

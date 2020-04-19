@@ -33,5 +33,7 @@ urlpatterns = [
     path('view_gardens/', gardens_view.view_gardens, name='view_gardens'),
     path('view_arrive_or_leave/', gardens_view.view_arrive_or_leave, name='view_arrive_or_leave'),
     path('view_test/', gardens_view.view_test, name='view_test'),
+    path('view_who_in_garden/', gardens_view.view_who_in_garden, name='view_who_in_garden'),
+    path('view_users_in_garden/', gardens_view.view_users_in_garden, name='view_users_in_garden'),
 
 ]

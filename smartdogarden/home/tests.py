@@ -21,7 +21,7 @@ class MyTestCase(unittest.TestCase):
             'email': 'super@super.super',
             'username': 'super',
             'password': 'l123123123'}
-        with self.assertRaisesRegex(Exception, "Duplicate entry"):
+        with self.assertRaisesRegex(Exception, "user"):
             get_user_model().objects.create_user(**self.credentials)
         # get_user_model().objects.save(using=self._db)
 
@@ -29,6 +29,11 @@ class MyTestCase(unittest.TestCase):
         c = Client()
         login = c.post('/login/', {'username': 'super', 'password': 'l123123123'})
         self.assertTrue(login)
+
+    def test_logout(self):
+        c = Client()
+        logout = c.post('/logout/')
+        self.assertTrue(logout)
 
 
 if __name__ == '__main__':

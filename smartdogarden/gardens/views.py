@@ -30,3 +30,16 @@ def view_test(request):
         return render(request, 'gardens/arrive_or_leave.html')
 
 
+def view_who_in_garden(request):
+    json_data = open('data_from_b7_open_data/dog-gardens.json', encoding="utf8")
+    data1 = json.load(json_data)  # deserialises it
+    json_data.close()
+    return render(request, 'gardens/view_who_in_garden.html', {"list": data1})
+
+
+def view_users_in_garden(request):
+    gname = request.GET['gname']
+    users = ArriveLeaveGarden.objects.all()
+    good = users.filter(garden_name=gname)
+
+    return render(request, 'gardens/view_users_in_garden.html', {"list": good})
