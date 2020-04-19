@@ -31,5 +31,7 @@ urlpatterns = [
     path('register_dog_owner/', user_views.register_as_dog_owner, name='register_D_O'),
     path('register_dog_sitter/', user_views.register_as_dog_sitter, name='register_D_S'),
     path('view_gardens/', gardens_view.view_gardens, name='view_gardens'),
+    path('view_arrive_or_leave/', gardens_view.view_arrive_or_leave, name='view_arrive_or_leave'),
+    path('view_test/', gardens_view.view_test, name='view_test'),
 
 ]

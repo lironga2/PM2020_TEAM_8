@@ -1,4 +1,4 @@
-import uuid
+
 
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -15,7 +15,7 @@ class MyAccountManager(BaseUserManager):
             raise ValueError("Users must have an username")
 
         user = self.model(
-                user_id=user_id,
+                user=user_id,
                 email=self.normalize_email(email),
                 username=username,
         )

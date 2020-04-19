@@ -1,0 +1,14 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+            {% for i in list %}
+                    <p>
+                        <form method="get" action="/view_test/">
+                            <a class="gname">{{ i.name }}</a>
+                            <a class="button"  href="{% url 'view_test' %}?gname={{ i.name }}" >Arrive</a>
+                            <a class="button"  href="{% url 'view_test' %}?gname=Leave">Leave</a>
+                        </form>
+                    </p>
+            {% endfor %}
+{% endblock content %}
+
