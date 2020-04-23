@@ -59,3 +59,11 @@ def go_to_profile(request):
             return redirect('site-home')
     else:
         return redirect('site-home')
+
+
+def view_dog_sitters(request):
+    users = User.objects.all()
+    good = users.filter(is_dog_sitter=True)
+    return render(request, 'users/view_dog_sitters.html', {"list": good})
+
+

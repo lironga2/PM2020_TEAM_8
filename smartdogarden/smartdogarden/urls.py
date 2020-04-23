@@ -35,5 +35,6 @@ urlpatterns = [
     path('view_test/', gardens_view.view_test, name='view_test'),
     path('view_who_in_garden/', gardens_view.view_who_in_garden, name='view_who_in_garden'),
     path('view_users_in_garden/', gardens_view.view_users_in_garden, name='view_users_in_garden'),
+    path('view_dog_sitters/', user_views.view_dog_sitters, name='view_dog_sitters'),
 
 ]

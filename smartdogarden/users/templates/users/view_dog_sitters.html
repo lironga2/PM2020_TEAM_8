@@ -1,0 +1,14 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h1>List of dog sitters</h1>
+{% for i in list %}
+<pre>
+    user name: {{ i.username }},
+    first name: {{ i.first_name }},
+    last name: {{ i.last_name }}.
+    phone number: {{ i.phone_number}}
+</pre>
+{% endfor %}
+
+{% endblock content %}
