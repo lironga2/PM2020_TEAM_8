@@ -18,6 +18,7 @@ from django.urls import path, include
 from users import views as user_views
 from django.contrib.auth import views as auth_views
 from gardens import views as gardens_view
+from dogsitterService import views as dogsitterService_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,5 +37,7 @@ urlpatterns = [
     path('view_who_in_garden/', gardens_view.view_who_in_garden, name='view_who_in_garden'),
     path('view_users_in_garden/', gardens_view.view_users_in_garden, name='view_users_in_garden'),
     path('view_dog_sitters/', user_views.view_dog_sitters, name='view_dog_sitters'),
+    path('activity_time/', dogsitterService_view.activity_time, name='activity_time'),
+    path('add_activity_time/', dogsitterService_view.add_activity_time, name='add_activity_time'),
 
 ]

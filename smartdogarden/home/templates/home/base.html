@@ -77,6 +77,9 @@
                     {% if user.is_dog_owner %}
                         <a class="nav-item nav-link" href="{% url 'view_dog_sitters' %}">View dog sitters</a>
                     {% endif %}
+                    {% if user.is_dog_sitter %}
+                        <a class="nav-item nav-link" href="{% url 'activity_time' %}">Activity time</a>
+                    {% endif %}
                     <li class="list-group-item list-group-item-light">Calendars</li>
                     <li class="list-group-item list-group-item-light">etc</li>
                   </ul>

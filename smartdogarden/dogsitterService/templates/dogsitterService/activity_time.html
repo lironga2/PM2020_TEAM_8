@@ -1,0 +1,13 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>MY ACTIVITIES:</h2>
+    {% for i in list %}
+                    <p>
+                        Date: {{ i.activity_date }} - {{ i.activity_start }} - {{ i.activity_end }}
+                    </p>
+    {% endfor %}
+
+<a class="btn btn-outline-info" href="{% url 'add_activity_time' %}">Add activity time</a>
+
+{% endblock content %}

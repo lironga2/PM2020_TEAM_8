@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'crispy_forms',
     'gardens.apps.GardensConfig',
-
+    'dogsitterService',
 ]
 
 MIDDLEWARE = [
