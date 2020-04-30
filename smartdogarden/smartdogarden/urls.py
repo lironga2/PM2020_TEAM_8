@@ -39,5 +39,7 @@ urlpatterns = [
     path('view_dog_sitters/', user_views.view_dog_sitters, name='view_dog_sitters'),
     path('activity_time/', dogsitterService_view.activity_time, name='activity_time'),
     path('add_activity_time/', dogsitterService_view.add_activity_time, name='add_activity_time'),
+    path('hazard_report/', gardens_view.view_hazard_report, name='view_hazard_report'),
+    path('report_on_hazard/', gardens_view.report_on_hazard, name='report_on_hazard'),
 
 ]

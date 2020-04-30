@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 import json
 from . import buttons_functions
 from django.contrib import messages
-from . models import ArriveLeaveGarden
+from .models import ArriveLeaveGarden, ReportOnHazard
+from .forms import HazardReportForm
+
+
 # Create your views here.
 
 
@@ -43,3 +46,34 @@ def view_users_in_garden(request):
     good = users.filter(garden_name=gname)
 
     return render(request, 'gardens/view_users_in_garden.html', {"list": good})
+
+
+def view_hazard_report(request):
+    json_data = open('data_from_b7_open_data/dog-gardens.json', encoding="utf8")
+    data1 = json.load(json_data)  # deserialises it
+    json_data.close()
+    return render(request, 'gardens/hazard_report.html', {"list": data1})
+
+
+def report_on_hazard(request):
+
+    #if request.method == 'POST':
+        gname = request.GET['gname']
+        form = HazardReportForm(request.POST)
+        if form.is_valid():
+            username = request.user.username
+            user = request.user
+            new_hazard = ReportOnHazard.objects.create(
+                report_title=form.cleaned_data['report_title'],
+                report_text=form.cleaned_data['report_text'],
+                reporter_id=user,
+                reporter_user_name=username,
+                garden_name=gname,
+            )
+            new_hazard.save()
+            messages.success(request, f'Hazard report created successfully!')
+            return redirect('view_hazard_report')
+        else:
+            form = HazardReportForm()
+
+        return render(request, 'gardens/report_on_hazard.html', {'form': form})

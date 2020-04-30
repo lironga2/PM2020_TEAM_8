@@ -22,3 +22,13 @@ class ArriveLeaveGarden(models.Model):
         )
         tmp.save(using=self._db)
         return tmp
+
+
+class ReportOnHazard(models.Model):
+    reporter_id = models.ForeignKey(Account, on_delete=models.CASCADE)
+    reporter_user_name = models.CharField(max_length=100)
+    report_date = models.DateField(default=timezone.now)
+    garden_name = models.CharField(max_length=100)
+    report_status = models.CharField(max_length=100, default='Not yet addressed')
+    report_title = models.CharField(max_length=100)
+    report_text = models.CharField(max_length=300)

@@ -5,7 +5,7 @@
                     <p>
                         <form method="get" action="/view_users_in_garden/">
                             <a class="gname">{{ i.name }}</a>
-                            <a class="button"  href="{% url 'view_users_in_garden' %}?gname={{ i.name }}" >Choose</a>
+                            <a class="btn btn-outline-info"  href="{% url 'view_users_in_garden' %}?gname={{ i.name }}" >Choose</a>
                         </form>
                     </p>
             {% endfor %}
