@@ -1,0 +1,13 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h4>Choose the garden where you want to see the hazards:</h4>
+            {% for i in list %}
+                    <p>
+                        <form method="get" action="/view_all_hazard_report/">
+                            <a class="gname">{{ i.name }}</a>
+                            <a class="btn btn-outline-info"  href="{% url 'view_all_hazard_report' %}?gname={{ i.name }}" >Choose</a>
+                        </form>
+                    </p>
+            {% endfor %}
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>List of hazards: </h2>
+    {% for i in list %}
+        <article class="media content-section">
+        <div class="media-body">
+
+            <tr>
+                <p>The title of the report is: {{ i.report_title }}</p>
+                <p>The status is: {{ i.report_status }}</p>
+                <p>The date is: {{ i.report_date }}</p>
+                <h6>{{ i.report_text }}</h6>
+            </tr>
+
+        </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

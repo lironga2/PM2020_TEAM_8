@@ -41,5 +41,6 @@ urlpatterns = [
     path('add_activity_time/', dogsitterService_view.add_activity_time, name='add_activity_time'),
     path('hazard_report/', gardens_view.view_hazard_report, name='view_hazard_report'),
     path('report_on_hazard/', gardens_view.report_on_hazard, name='report_on_hazard'),
-
+    path('all_hazard_report/', gardens_view.all_hazard_report, name='all_hazard_report'),
+    path('view_all_hazard_report/', gardens_view.view_all_hazard_report, name='view_all_hazard_report'),
 ]

@@ -77,3 +77,16 @@ def report_on_hazard(request):
             form = HazardReportForm()
 
         return render(request, 'gardens/report_on_hazard.html', {'form': form})
+
+
+def all_hazard_report(request):
+    json_data = open('data_from_b7_open_data/dog-gardens.json', encoding="utf8")
+    data1 = json.load(json_data)  # deserialises it
+    json_data.close()
+    return render(request, 'gardens/all_hazard_report.html', {"list": data1})
+
+def view_all_hazard_report(request):
+    gname = request.GET['gname']
+    users = ReportOnHazard.objects.all()
+    good = users.filter(garden_name=gname)
+    return render(request, 'gardens/view_all_hazard_report.html', {"list": good})
