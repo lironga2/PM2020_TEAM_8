@@ -1,0 +1,20 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>Dogsitter service:</h2>
+
+    {% for i in dogsitters_activity  %}
+                        <p>
+                            <form method="get" action="/add_service_request/">
+                                Date: {{ i.activity_date }} - start hour: {{ i.activity_start }} - end hour: {{ i.activity_end }} Dogsitter details:  {{ i.user_id.first_name }} - {{ i.user_id.last_name }} - phonenumber: {{ i.user_id.phone_number }} <a class="btn btn-outline-info" href="{% url 'add_service_request' %}?activity_id={{ i.id }}">Send ensure request</a>
+                                <form method="get" action="/cancel_service_request/">
+                                <a class="btn btn-outline-info" href="{% url 'cancel_service_request' %}?activity_id={{ i.id }}">Cancel ensure request</a>
+                            </form>
+                            </form>
+
+                        </p>
+
+    {% endfor %}
+
+
+{% endblock content %}

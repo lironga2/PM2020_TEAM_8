@@ -43,4 +43,7 @@ urlpatterns = [
     path('report_on_hazard/', gardens_view.report_on_hazard, name='report_on_hazard'),
     path('all_hazard_report/', gardens_view.all_hazard_report, name='all_hazard_report'),
     path('view_all_hazard_report/', gardens_view.view_all_hazard_report, name='view_all_hazard_report'),
+    path('dogsitter_service_coordination/', dogsitterService_view.view_dogsitter_service_coordination, name='view_dogsitter_service_coordination'),
+    path('dogsitter_add_service_request/', dogsitterService_view.add_service_request, name='add_service_request'),
+    path('cancel_service_request/', dogsitterService_view.cancel_service_request, name='cancel_service_request'),
 ]

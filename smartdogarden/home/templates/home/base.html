@@ -76,6 +76,7 @@
                     <a class="nav-item nav-link" href="{% url 'view_who_in_garden' %}">View who in garden</a>
                     {% if user.is_dog_owner %}
                         <a class="nav-item nav-link" href="{% url 'view_dog_sitters' %}">View dog sitters</a>
+                        <a class="nav-item nav-link" href="{% url 'view_dogsitter_service_coordination' %}">Dogsitter service coordination</a>
                     {% endif %}
                     {% if user.is_dog_sitter %}
                         <a class="nav-item nav-link" href="{% url 'activity_time' %}">Activity time</a>
