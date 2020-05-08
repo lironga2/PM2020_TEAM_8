@@ -87,3 +87,13 @@ def cancel_service_request(request):
             messages.warning(request, f'You cant abort ensure request that you never sent!')
     #return render(request, 'dogsitterService/dogsitter_service_coordination.html')
     return redirect('view_dogsitter_service_coordination')
+
+
+def view_service_requests(request):
+    my_activities = ActivityTimeDogSitter.objects.filter(user_id=request.user.id)
+    service_requests = ServiceRequests.objects.all()
+    my_service_requests = []
+    for i in service_requests:
+        if i.activity_id.user_id == request.user:
+            my_service_requests.append(i)
+    return render(request, 'dogsitterService/view_service_requests.html', {"list": my_service_requests})

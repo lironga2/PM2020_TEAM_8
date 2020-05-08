@@ -80,6 +80,7 @@
                     {% endif %}
                     {% if user.is_dog_sitter %}
                         <a class="nav-item nav-link" href="{% url 'activity_time' %}">Activity time</a>
+                        <a class="nav-item nav-link" href="{% url 'view_service_requests' %}">My service requests</a>
                     {% endif %}
                   <a class="nav-item nav-link" href="{% url 'view_hazard_report' %}">Hazard report</a>
                   <a class="nav-item nav-link" href="{% url 'all_hazard_report' %}">all_hazard_report</a>
