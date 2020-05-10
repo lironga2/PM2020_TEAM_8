@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 # Create your views here.
 from dogsitterService.forms import ActivityTimeDogSitterForm
-from dogsitterService.models import ActivityTimeDogSitter, ServiceRequests
+from dogsitterService.models import ActivityTimeDogSitter, ServiceRequests , Meetings , MeetingsActivity
 from account.models import Account
 
 
@@ -97,3 +97,31 @@ def view_service_requests(request):
         if i.activity_id.user_id == request.user:
             my_service_requests.append(i)
     return render(request, 'dogsitterService/view_service_requests.html', {"list": my_service_requests})
+
+
+def meeting_approval(request):
+    service_id = request.GET['service_request']
+    service_request = ServiceRequests.objects.filter(id=service_id).first()
+    activity = service_request.activity_id
+    print(activity)
+    new_meeting_activity = MeetingsActivity.objects.create(
+        activity_date=activity.activity_date,
+        activity_start=activity.activity_start,
+        activity_end=activity.activity_end,
+        dogsitter_id=activity.user_id
+    )
+    new_meeting_activity.save()
+    if new_meeting_activity:
+        new_meeting = Meetings.objects.create(
+            dog_owner_id=service_request.requesting_user,
+            meetings_activity_id=new_meeting_activity
+        )
+        if new_meeting:
+            service_request.delete()
+            activity.delete()
+            messages.success(request, f'The service request approved successfully! and new meeting has been created!')
+        else:
+            messages.warning(request, f'The service request isn׳t approved try again!')
+    else:
+        messages.warning(request, f'The service request isn׳t approved try again!')
+    return redirect('view_service_requests')

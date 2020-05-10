@@ -6,6 +6,9 @@
                     <p>
                         Date: {{ i.activity_id.activity_date }} - start hour: {{ i.activity_id.activity_start }} - end hour: {{ i.activity_id.activity_end }} Dog Owner Details: first name: {{ i.requesting_user.first_name }} - last name: {{ i.requesting_user.last_name }} - phonenumber: {{ i.requesting_user.phone_number }}
                     </p>
+                    <form method="get" action="/meeting_approval/">
+                        <a class="btn btn-outline-info" href="{% url 'meeting_approval' %}?service_request={{ i.id }}">Approve</a>
+                    </form>
     {% endfor %}
 
 

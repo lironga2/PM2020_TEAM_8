@@ -15,3 +15,15 @@ class ActivityTimeDogSitter(models.Model):
 class ServiceRequests(models.Model):
     activity_id = models.ForeignKey(ActivityTimeDogSitter, on_delete=models.CASCADE)
     requesting_user = models.ForeignKey(Account, on_delete=models.CASCADE)
+
+
+class MeetingsActivity(models.Model):
+    dogsitter_id = models.ForeignKey(Account, on_delete=models.CASCADE)
+    activity_date = models.DateField()
+    activity_start = models.TimeField()
+    activity_end = models.TimeField()
+
+
+class Meetings(models.Model):
+    dog_owner_id = models.ForeignKey(Account, on_delete=models.CASCADE)
+    meetings_activity_id = models.ForeignKey(MeetingsActivity, on_delete=models.CASCADE)

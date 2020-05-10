@@ -47,4 +47,5 @@ urlpatterns = [
     path('dogsitter_add_service_request/', dogsitterService_view.add_service_request, name='add_service_request'),
     path('cancel_service_request/', dogsitterService_view.cancel_service_request, name='cancel_service_request'),
     path('view_service_requests/', dogsitterService_view.view_service_requests, name='view_service_requests'),
+    path('meeting_approval/', dogsitterService_view.meeting_approval, name='meeting_approval'),
 ]
