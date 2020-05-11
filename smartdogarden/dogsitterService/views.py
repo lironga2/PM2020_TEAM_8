@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 # Create your views here.
 from dogsitterService.forms import ActivityTimeDogSitterForm
-from dogsitterService.models import ActivityTimeDogSitter, ServiceRequests , Meetings , MeetingsActivity
+from dogsitterService.models import ActivityTimeDogSitter, ServiceRequests, Meetings, MeetingsActivity
+from dogsitterService.models import RejectedActivity, ServiceRejected
 from account.models import Account
 
 
@@ -121,7 +122,36 @@ def meeting_approval(request):
             activity.delete()
             messages.success(request, f'The service request approved successfully! and new meeting has been created!')
         else:
+            new_meeting_activity.delete()
             messages.warning(request, f'The service request isn׳t approved try again!')
     else:
         messages.warning(request, f'The service request isn׳t approved try again!')
+    return redirect('view_service_requests')
+
+
+def meeting_rejected(request):
+    service_id = request.GET['service_request']
+    service_request = ServiceRequests.objects.filter(id=service_id).first()
+    activity = service_request.activity_id
+    new_rejected_activity = RejectedActivity.objects.create(
+        activity_date=activity.activity_date,
+        activity_start=activity.activity_start,
+        activity_end=activity.activity_end,
+        dogsitter_id=activity.user_id
+    )
+    new_rejected_activity.save()
+    if new_rejected_activity:
+        new_service_rejected = ServiceRejected.objects.create(
+            dog_owner_id=service_request.requesting_user,
+            rejected_activity_id=new_rejected_activity
+        )
+        new_service_rejected.save()
+        if new_service_rejected:
+            service_request.delete()
+            messages.success(request, f'The service request rejected successfully! and new meeting has been created!')
+        else:
+            new_rejected_activity.delete()
+            messages.warning(request, f'The service request isn׳t rejected try again!')
+    else:
+        messages.warning(request, f'The service request isn׳t rejected try again!')
     return redirect('view_service_requests')

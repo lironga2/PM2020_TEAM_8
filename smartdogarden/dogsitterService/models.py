@@ -27,3 +27,15 @@ class MeetingsActivity(models.Model):
 class Meetings(models.Model):
     dog_owner_id = models.ForeignKey(Account, on_delete=models.CASCADE)
     meetings_activity_id = models.ForeignKey(MeetingsActivity, on_delete=models.CASCADE)
+
+
+class RejectedActivity(models.Model):
+    dogsitter_id = models.ForeignKey(Account, on_delete=models.CASCADE)
+    activity_date = models.DateField()
+    activity_start = models.TimeField()
+    activity_end = models.TimeField()
+
+
+class ServiceRejected(models.Model):
+    rejected_activity_id = models.ForeignKey(RejectedActivity, on_delete=models.CASCADE)
+    dog_owner_id = models.ForeignKey(Account, on_delete=models.CASCADE)
