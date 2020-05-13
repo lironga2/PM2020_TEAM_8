@@ -1,0 +1,40 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>MY SERVICE REQUESTS:</h2>
+    {% for i in my_meetings %}
+                    <p>
+                        <form method="get" action="/cancel_meeting/">
+                            Date: {{ i.meetings_activity_id.activity_date }} - start hour: {{ i.meetings_activity_id.activity_start }} - end hour: {{ i.meetings_activity_id.activity_end }} Dog Owner Details: first name: {{ i.dog_owner_id.first_name }} - last name: {{ i.dog_owner_id.last_name }} - phonenumber: {{ i.dog_owner_id.phone_number }}<a class="btn btn-outline-info" href="{% url 'cancel_meeting' %}?meeting_id={{ i.id }}">Cancel meeting</a>
+                        </form>
+                    </p>
+
+
+
+    {% endfor %}
+
+
+<h2>MY CANCELED MEETINGS:</h2>
+    {% for i in my_cancel_meetings %}
+                    <p>
+                            Date: {{ i.rejected_activity_id.activity_date }} - start hour: {{ i.rejected_activity_id.activity_start }} - end hour: {{ i.rejected_activity_id.activity_end }} Dog Owner Details: first name: {{ i.dog_owner_id.first_name }} - last name: {{ i.dog_owner_id.last_name }} - phonenumber: {{ i.dog_owner_id.phone_number }}
+                    </p>
+
+
+
+    {% endfor %}
+
+
+
+<h2>MY REJECTED SERVICE REQUESTS:</h2>
+    {% for i in my_rejected_requests %}
+                    <p>
+                            Date: {{ i.rejected_activity_id.activity_date }} - start hour: {{ i.rejected_activity_id.activity_start }} - end hour: {{ i.rejected_activity_id.activity_end }} Dog Owner Details: first name: {{ i.dog_owner_id.first_name }} - last name: {{ i.dog_owner_id.last_name }} - phonenumber: {{ i.dog_owner_id.phone_number }}
+                    </p>
+
+
+
+    {% endfor %}
+
+
+{% endblock content %}

@@ -49,4 +49,7 @@ urlpatterns = [
     path('view_service_requests/', dogsitterService_view.view_service_requests, name='view_service_requests'),
     path('meeting_approval/', dogsitterService_view.meeting_approval, name='meeting_approval'),
     path('meeting_rejected/', dogsitterService_view.meeting_rejected, name='meeting_rejected'),
+    path('my_meetings_d_o/', dogsitterService_view.view_my_meetings_dog_owner, name='view_my_meetings_dog_owner'),
+    path('cancel_meeting/', dogsitterService_view.cancel_meeting, name='cancel_meeting'),
+    path('my_meetings_d_s/', dogsitterService_view.view_my_meetings_dogsitter, name='view_my_meetings_dogsitter'),
 ]

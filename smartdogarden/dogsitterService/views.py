@@ -3,7 +3,7 @@ from django.contrib import messages
 # Create your views here.
 from dogsitterService.forms import ActivityTimeDogSitterForm
 from dogsitterService.models import ActivityTimeDogSitter, ServiceRequests, Meetings, MeetingsActivity
-from dogsitterService.models import RejectedActivity, ServiceRejected
+from dogsitterService.models import RejectedActivity, ServiceRejected, CanceledActivity, CanceledMeetings
 from account.models import Account
 
 
@@ -155,3 +155,78 @@ def meeting_rejected(request):
     else:
         messages.warning(request, f'The service request isn׳t rejected try again!')
     return redirect('view_service_requests')
+
+
+def view_my_meetings_dog_owner(request):
+    my_meetings = Meetings.objects.filter(dog_owner_id=request.user)
+    my_cancel_meetings = CanceledMeetings.objects.filter(dog_owner_id=request.user)
+    my_rejected_requests = ServiceRejected.objects.filter(dog_owner_id=request.user)
+    print(my_meetings)
+    print(request.user)
+    print(my_rejected_requests)
+    #dogsitters = Account.objects.all()
+    #return render(request, 'dogsitterService/dogsitter_service_coordination.html', context={'dogsitters': dogsitters, 'dogsitters_activity': dogsitters_activity})
+    return render(request, 'dogsitterService/my_meetings_d_o.html', context={'my_meetings': my_meetings, 'my_rejected_requests': my_rejected_requests, 'my_cancel_meetings': my_cancel_meetings})
+
+
+def cancel_meeting(request):
+    meeting_id = request.GET['meeting_id']
+    meeting = Meetings.objects.filter(id=meeting_id).first()
+    activity = meeting.meetings_activity_id
+    new_canceled_activity = CanceledActivity.objects.create(
+        activity_date=activity.activity_date,
+        activity_start=activity.activity_start,
+        activity_end=activity.activity_end,
+        dogsitter_id=activity.dogsitter_id
+    )
+    new_canceled_activity.save()
+    if new_canceled_activity:
+        new_canceled_meeting = CanceledMeetings.objects.create(
+            dog_owner_id=meeting.dog_owner_id,
+            rejected_activity_id=new_canceled_activity
+        )
+        new_canceled_activity.save()
+        if new_canceled_activity:
+            meeting.delete()
+            activity.delete()
+            messages.success(request, f'The meeting is canceled successfully!')
+        else:
+            new_canceled_activity.delete()
+            messages.warning(request, f'The meeting isn׳t canceled try again!')
+    else:
+        messages.warning(request, f'The meeting isn׳t canceled try again!')
+    if request.user.is_dog_sitter:
+        return redirect('view_my_meetings_dogsitter')
+    elif request.user.is_dog_owner:
+        return redirect('view_my_meetings_dog_owner')
+    else:
+        return redirect('view_my_meetings_dog_owner')
+
+
+def view_my_meetings_dogsitter(request):
+    all_meetings = Meetings.objects.all()
+    my_meetings = []
+
+    all_canceled_meetings = CanceledMeetings.objects.all()
+    my_cancel_meetings = []
+
+    all_rejected_requests = ServiceRejected.objects.all()
+    my_rejected_requests = []
+
+    for i in all_meetings:
+        if i.meetings_activity_id.dogsitter_id == request.user:
+            my_meetings.append(i)
+
+    for i in all_canceled_meetings:
+        if i.rejected_activity_id.dogsitter_id == request.user:
+            my_cancel_meetings.append(i)
+
+    for i in all_rejected_requests:
+        if i.rejected_activity_id.dogsitter_id == request.user:
+            my_rejected_requests.append(i)
+    print(my_meetings)
+    print(request.user)
+    print(my_rejected_requests)
+    #dogsitters = Account.objects.all()
+    #return render(request, 'dogsitterService/dogsitter_service_coordination.html', context={'dogsitters': dogsitters, 'dogsitters_activity': dogsitters_activity})
+    return render(request, 'dogsitterService/my_meetings_d_s.html', context={'my_meetings': my_meetings, 'my_rejected_requests': my_rejected_requests, 'my_cancel_meetings': my_cancel_meetings})
