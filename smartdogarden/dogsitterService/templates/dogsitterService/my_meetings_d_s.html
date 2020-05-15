@@ -6,6 +6,9 @@
                     <p>
                         <form method="get" action="/cancel_meeting/">
                             Date: {{ i.meetings_activity_id.activity_date }} - start hour: {{ i.meetings_activity_id.activity_start }} - end hour: {{ i.meetings_activity_id.activity_end }} Dog Owner Details: first name: {{ i.dog_owner_id.first_name }} - last name: {{ i.dog_owner_id.last_name }} - phonenumber: {{ i.dog_owner_id.phone_number }}<a class="btn btn-outline-info" href="{% url 'cancel_meeting' %}?meeting_id={{ i.id }}">Cancel meeting</a>
+                            <form method="get" action="/update_meeting/">
+                                <a class="btn btn-outline-info" href="{% url 'update_meeting' %}?meetings_activity_id={{ i.meetings_activity_id.id }}">Edit</a>
+                            </form>
                         </form>
                     </p>
 

@@ -52,4 +52,5 @@ urlpatterns = [
     path('my_meetings_d_o/', dogsitterService_view.view_my_meetings_dog_owner, name='view_my_meetings_dog_owner'),
     path('cancel_meeting/', dogsitterService_view.cancel_meeting, name='cancel_meeting'),
     path('my_meetings_d_s/', dogsitterService_view.view_my_meetings_dogsitter, name='view_my_meetings_dogsitter'),
+    path('update_meeting', dogsitterService_view.update_meeting, name='update_meeting'),
 ]

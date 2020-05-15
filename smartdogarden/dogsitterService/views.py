@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 # Create your views here.
-from dogsitterService.forms import ActivityTimeDogSitterForm
+from dogsitterService.forms import ActivityTimeDogSitterForm, UpdateMeetingActivity
 from dogsitterService.models import ActivityTimeDogSitter, ServiceRequests, Meetings, MeetingsActivity
 from dogsitterService.models import RejectedActivity, ServiceRejected, CanceledActivity, CanceledMeetings
 from account.models import Account
+from django.views.generic import ListView,DetailView, CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def activity_time(request):
@@ -22,9 +24,10 @@ def add_activity_time(request):
             id = request.user.id
             allactivities = ActivityTimeDogSitter.objects.all()
             myactivities = allactivities.filter(user_id=id)
+            my_meetings = MeetingsActivity.objects.filter(dogsitter_id=id)
+            # need to create bool function for this check..
             for i in myactivities:
                 if i.activity_date == form.cleaned_data['activity_date']:
-                    print('helloooooo')
                     if form.cleaned_data['activity_start'] > i.activity_start and form.cleaned_data[
                         'activity_start'] < i.activity_end or form.cleaned_data['activity_end'] > i.activity_start and \
                             form.cleaned_data['activity_end'] < i.activity_end:
@@ -34,6 +37,19 @@ def add_activity_time(request):
                         'activity_end'] == i.activity_end:
                         messages.warning(request, f'Activity time already exists!')
                         return redirect('add_activity_time')
+
+            for i in my_meetings:
+                if i.activity_date == form.cleaned_data['activity_date']:
+                    if form.cleaned_data['activity_start'] > i.activity_start and form.cleaned_data[
+                        'activity_start'] < i.activity_end or form.cleaned_data['activity_end'] > i.activity_start and \
+                            form.cleaned_data['activity_end'] < i.activity_end:
+                        messages.warning(request, f'Activity time is overlapped!')
+                        return redirect('add_activity_time')
+                    if form.cleaned_data['activity_start'] == i.activity_start or form.cleaned_data[
+                        'activity_end'] == i.activity_end:
+                        messages.warning(request, f'Activity time already exists!')
+                        return redirect('add_activity_time')
+
             activity_d_s = ActivityTimeDogSitter.objects.create(
                 activity_date=form.cleaned_data['activity_date'],
                 activity_start=form.cleaned_data['activity_start'],
@@ -200,7 +216,7 @@ def cancel_meeting(request):
     elif request.user.is_dog_owner:
         return redirect('view_my_meetings_dog_owner')
     else:
-        return redirect('view_my_meetings_dog_owner')
+        return redirect('go_to_profile')
 
 
 def view_my_meetings_dogsitter(request):
@@ -230,3 +246,64 @@ def view_my_meetings_dogsitter(request):
     #dogsitters = Account.objects.all()
     #return render(request, 'dogsitterService/dogsitter_service_coordination.html', context={'dogsitters': dogsitters, 'dogsitters_activity': dogsitters_activity})
     return render(request, 'dogsitterService/my_meetings_d_s.html', context={'my_meetings': my_meetings, 'my_rejected_requests': my_rejected_requests, 'my_cancel_meetings': my_cancel_meetings})
+
+
+def update_meeting(request):
+
+    activity_id = request.GET['meetings_activity_id']
+    print('here!')
+    print(activity_id)
+    print('213123')
+    meeting_activity = MeetingsActivity.objects.filter(id=activity_id).first()
+    form = UpdateMeetingActivity(request.POST)
+    if form.is_valid():
+        id = request.user.id
+        allactivities = ActivityTimeDogSitter.objects.all()
+        myactivities = allactivities.filter(user_id=id)
+        my_meetings = MeetingsActivity.objects.filter(dogsitter_id=id)
+        #need to create bool function for this check..
+        for i in myactivities:
+            if form.cleaned_data['activity_start'] > form.cleaned_data['activity_end']:
+                messages.warning(request, f'Activity start cant be later then activity end!')
+                return redirect('view_my_meetings_dogsitter')
+            if i.activity_date == form.cleaned_data['activity_date']:
+                if i.id != meeting_activity.id and form.cleaned_data['activity_start'] > i.activity_start and \
+                        form.cleaned_data[
+                            'activity_start'] < i.activity_end or form.cleaned_data[
+                    'activity_end'] > i.activity_start and \
+                        form.cleaned_data['activity_end'] < i.activity_end and i.id != meeting_activity.id:
+                    messages.warning(request, f'Activity time is overlapped!')
+                    return redirect('view_my_meetings_dogsitter')
+                if i.id != meeting_activity.id and form.cleaned_data['activity_start'] == i.activity_start or \
+                        form.cleaned_data[
+                            'activity_end'] == i.activity_end and i.id != meeting_activity.id:
+                    messages.warning(request, f'Activity time already exists!')
+                    return redirect('view_my_meetings_dogsitter')
+
+        for i in my_meetings:
+            if form.cleaned_data['activity_start'] > form.cleaned_data['activity_end']:
+                messages.warning(request, f'Activity start cant be later then activity end!')
+                return redirect('view_my_meetings_dogsitter')
+            if i.activity_date == form.cleaned_data['activity_date']:
+                if i.id != meeting_activity.id and form.cleaned_data['activity_start'] > i.activity_start and form.cleaned_data[
+                    'activity_start'] < i.activity_end or form.cleaned_data['activity_end'] > i.activity_start and \
+                        form.cleaned_data['activity_end'] < i.activity_end and i.id != meeting_activity.id:
+                    messages.warning(request, f'Activity time is overlapped!')
+                    return redirect('view_my_meetings_dogsitter')
+                if i.id != meeting_activity.id and form.cleaned_data['activity_start'] == i.activity_start or form.cleaned_data[
+                    'activity_end'] == i.activity_end and i.id != meeting_activity.id:
+                    messages.warning(request, f'Activity time already exists!')
+                    return redirect('view_my_meetings_dogsitter')
+
+        #meeting_activity.activity_date = form.cleaned_data['activity_date']
+        meeting_activity.activity_start = form.cleaned_data['activity_start']
+        meeting_activity.activity_end = form.cleaned_data['activity_end']
+        meeting_activity.save()
+        messages.success(request, f'Activity time added successfully!')
+        return redirect('view_my_meetings_dogsitter')
+    else:
+        form = UpdateMeetingActivity()
+
+    return render(request, 'dogsitterService/update_meeting.html', {'form': form})
+
+
