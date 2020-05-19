@@ -189,7 +189,59 @@ class MyTestCase(unittest.TestCase):
         meeting.delete()
 
 
+    def test_integration_reject_service_request(self):
+        dog_owner = Account.objects.filter(username="test2").first()
+        dog_sitter = Account.objects.filter(username="test5").first()
+        dog_sitter_activity = ActivityTimeDogSitter.objects.create(
+            username=dog_sitter.username,
+            activity_date="2077-07-07",
+            activity_start="09:30",
+            activity_end="11:30",
+            user_id=dog_sitter
+        )
+        dog_sitter_activity.save()
+        service_request = ServiceRequests.objects.create(
+            activity_id=dog_sitter_activity,
+            requesting_user=dog_owner
+        )
+        service_request.save()
+        rejected_activity = RejectedActivity.objects.create(
+            activity_date=service_request.activity_id.activity_date,
+            activity_start=service_request.activity_id.activity_start,
+            activity_end=service_request.activity_id.activity_end,
+            dogsitter_id=dog_sitter
+        )
+        rejected_activity.save()
+        service_request.delete()
+        dog_sitter_activity.delete()
+        rejected_service = ServiceRejected.objects.create(
+            dog_owner_id=dog_owner,
+            rejected_activity_id=rejected_activity
+        )
+        rejected_service.save()
+        rejected_service_id = rejected_service.id
+        rejected_service = ServiceRejected.objects.filter(id=rejected_service_id).first()
+        self.assertTrue(rejected_service)
+        rejected_activity.delete()
+        rejected_service.delete()
 
+    def test_integration_leave_garden(self):
+        user = Account.objects.filter(username="test5").first()
+        json_data = open('data_from_b7_open_data/dog-gardens.json', encoding="utf8")
+        data1 = json.load(json_data)  # deserialises it
+        json_data.close()
+        garden_name = data1[10]['name']
+        print(garden_name)
+        arrive = ArriveLeaveGarden.objects.create(
+            garden_name=garden_name,
+            username="test2",
+            user_id=user,
+        )
+        arrive.save()
+        leave = ArriveLeaveGarden.objects.filter(garden_name=garden_name).first()
+        leave.delete()
+        leave = ArriveLeaveGarden.objects.filter(garden_name=garden_name).first()
+        self.assertFalse(leave)
 
 if __name__ == '__main__':
     unittest.main()
