@@ -18,13 +18,11 @@ from dogsitterService.models import ActivityTimeDogSitter, ServiceRequests, Meet
     RejectedActivity, ServiceRejected
 
 
-
 class MyTestCase(unittest.TestCase):
     # def LogInTest(TestCase):
     c = Client()
 
     def test_insert_to_DB(self):
-
         self.credentials = {
             'user_id': '555',
             'email': 'super@super.super',
@@ -64,26 +62,39 @@ class MyTestCase(unittest.TestCase):
         logout = c.post('/logout/')
         self.assertTrue(logout)
 
-    #def test_json_DB(self):
-        #json_data = open('data_from_b7_open_data/dog-gardens.json, encoding="utf8")
-        #data1 = json.load(json_data)  # deserialises it
-        #json_data.close()
-        #size = len(data1)
-        #self.assertEquals(size, 13)
+    def test_json_DB(self):
+        json_data = open('smartdogarden/home/dog-gardens.json', encoding="utf8")
+        data1 = json.load(json_data)  # deserialises it
+        json_data.close()
+        size = len(data1)
+        self.assertEquals(size, 13)
 
     def test_arrive_to_garden(self):
-        #json_data = open('data_from_b7_open_data/dog-gardens.json', encoding="utf8")
-        #data1 = json.load(json_data)  # deserialises it
-        #json_data.close()
+        # json_data = open('home/dog-gardens.json', encoding="utf8")
+        # data1 = json.load(json_data)  # deserialises it
+        # json_data.close()
         user = Account.objects.filter(username='test2').first()
         arrive = ArriveLeaveGarden.objects.create(
-            #garden_name=data1[0]['name'],
+            # garden_name=data1[0]['name'],
             garden_name="פארק קפלן",
             username="test2",
             user_id=user,
         )
         arrive.save()
         self.assertTrue(arrive)
+
+    def test_view_user_in_garden(self):
+        user = Account.objects.filter(username='test2').first()
+        arrive = ArriveLeaveGarden.objects.create(
+            # garden_name=data1[0]['name'],
+            garden_name="פארק קפלן",
+            username="test2",
+            user_id=user,
+        )
+        arrive.save()
+        arrive = ArriveLeaveGarden.objects.filter(username="test2").first()
+        self.assertEqual(arrive.garden_name, "פארק קפלן")
+        arrive.delete()
 
     def test_leave_the_garden(self):
         user = Account.objects.filter(username='test2').first()
@@ -93,6 +104,81 @@ class MyTestCase(unittest.TestCase):
         leave = ArriveLeaveGarden.objects.filter(user_id=id).first()
         self.assertFalse(leave)
 
+    def test_update_meeting_activity(self):
+        dog_owner = Account.objects.filter(username="test2").first()
+        dog_sitter = Account.objects.filter(username="test5").first()
+        meeting_activity_old = MeetingsActivity.objects.create(
+            activity_date="2027-01-01",
+            activity_start="10:00",
+            activity_end="11:00",
+            dogsitter_id=dog_sitter
+        )
+        meeting_activity_old.save()
+        meeting = Meetings.objects.create(
+            dog_owner_id=dog_owner,
+            meetings_activity_id=meeting_activity_old
+        )
+        meeting.save()
+        meeting_activity_update = MeetingsActivity.objects.filter(id=meeting_activity_old.id).first()
+        meeting_activity_update.activity_end = "11:30"
+        meeting_activity_update.save()
+        meeting_activity_after_update = MeetingsActivity.objects.filter(id=meeting_activity_old.id).first()
+        time1 = datetime.time(11, 30, 00)
+        self.assertEquals(meeting_activity_after_update.activity_end, time1)
+        meeting.delete()
+        meeting_activity_after_update.delete()
+
+    def test_add_dogsitter_activity_time(self):
+        dog_sitter = Account.objects.filter(username="test5").first()
+        dogsitter_activity = ActivityTimeDogSitter.objects.create(
+            username=dog_sitter.username,
+            activity_date="2028-01-01",
+            activity_start="08:00",
+            activity_end="09:00",
+            user_id=dog_sitter
+        )
+        dogsitter_activity.save()
+        self.assertTrue(dogsitter_activity)
+
+    def test_add_service_request(self):
+        dog_owner = Account.objects.filter(username="test2").first()
+        dog_sitter = Account.objects.filter(username="test5").first()
+        dogsitter_activity = ActivityTimeDogSitter.objects.filter(user_id=dog_sitter).first()
+        service_request = ServiceRequests.objects.create(
+            activity_id=dogsitter_activity,
+            requesting_user=dog_owner
+        )
+        service_request.save()
+        self.assertTrue(service_request)
+
+    def test_reject_service_request(self):
+        dog_sitter = Account.objects.filter(username="test5").first()
+        dog_owner = Account.objects.filter(username="test2").first()
+        service_request = ServiceRequests.objects.filter(requesting_user=dog_owner).first()
+        activity_id = service_request.activity_id.id
+        service_activity = ActivityTimeDogSitter.objects.filter(id=activity_id).first()
+        rejected_activity = RejectedActivity.objects.create(
+            activity_date=service_activity.activity_date,
+            activity_start=service_activity.activity_start,
+            activity_end=service_activity.activity_end,
+            dogsitter_id=dog_sitter
+        )
+        rejected_activity.save()
+        service_request.delete()
+        service_activity.delete()
+        rejected_service = ServiceRejected.objects.create(
+            dog_owner_id=dog_owner,
+            rejected_activity_id=rejected_activity
+        )
+        rejected_service_id = rejected_service.id
+        rejected_service = ServiceRejected.objects.filter(id=rejected_service_id).first()
+        self.assertTrue(rejected_service)
+        rejected_activity.delete()
+        rejected_service.delete()
+
+    def test_view_doggsitter(self):
+        dog_sitters = Account.objects.filter(is_dog_sitter=True).first()
+        self.assertTrue(dog_sitters)
 
     def test_integration_confirm_service_request(self):
         dog_owner = Account.objects.filter(username="test2").first()
@@ -188,7 +274,6 @@ class MyTestCase(unittest.TestCase):
         meeting_activity_after_update.delete()
         meeting.delete()
 
-
     def test_integration_reject_service_request(self):
         dog_owner = Account.objects.filter(username="test2").first()
         dog_sitter = Account.objects.filter(username="test5").first()
@@ -227,7 +312,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_integration_leave_garden(self):
         user = Account.objects.filter(username="test5").first()
-        json_data = open('data_from_b7_open_data/dog-gardens.json', encoding="utf8")
+        json_data = open('smartdogarden/home/dog-gardens.json', encoding="utf8")
         data1 = json.load(json_data)  # deserialises it
         json_data.close()
         garden_name = data1[10]['name']
@@ -242,6 +327,7 @@ class MyTestCase(unittest.TestCase):
         leave.delete()
         leave = ArriveLeaveGarden.objects.filter(garden_name=garden_name).first()
         self.assertFalse(leave)
+
 
 if __name__ == '__main__':
     unittest.main()
