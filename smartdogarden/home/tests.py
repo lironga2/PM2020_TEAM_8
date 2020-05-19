@@ -180,6 +180,28 @@ class MyTestCase(unittest.TestCase):
         dog_sitters = Account.objects.filter(is_dog_sitter=True).first()
         self.assertTrue(dog_sitters)
 
+    def test_report_on_hazard(self):
+        dog_owner = Account.objects.filter(username="test2").first()
+        new_hazard_report = ReportOnHazard.objects.create(
+            reporter_user_name=dog_owner.username,
+            garden_name="פארק קפלן",
+            report_title="test",
+            report_text="this is report test",
+            reporter_id=dog_owner
+        )
+        new_hazard_report.save()
+        self.assertTrue(new_hazard_report)
+
+    def test_view_hazard(self):
+        hazard = ReportOnHazard.objects.filter(report_title="test").first()
+        self.assertEqual(hazard.garden_name, "פארק קפלן")
+        hazard.delete()
+
+    def test_view_my_meetings(self):
+        dog_sitter = Account.objects.filter(username="test5").first()
+        my_meetings_activity = MeetingsActivity.objects.filter(id=dog_sitter.id)
+        self.assertEqual(len(my_meetings_activity), 0)
+
     def test_integration_confirm_service_request(self):
         dog_owner = Account.objects.filter(username="test2").first()
         dog_sitter = Account.objects.filter(username="test5").first()
@@ -316,7 +338,6 @@ class MyTestCase(unittest.TestCase):
         data1 = json.load(json_data)  # deserialises it
         json_data.close()
         garden_name = data1[10]['name']
-        print(garden_name)
         arrive = ArriveLeaveGarden.objects.create(
             garden_name=garden_name,
             username="test2",
