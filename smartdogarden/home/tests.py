@@ -202,6 +202,28 @@ class MyTestCase(unittest.TestCase):
         my_meetings_activity = MeetingsActivity.objects.filter(id=dog_sitter.id)
         self.assertEqual(len(my_meetings_activity), 0)
 
+    def test_dogsitter_service_coordination(self):
+        dog_owner = Account.objects.filter(username="test2").first()
+        dog_sitter = Account.objects.filter(username="test5").first()
+        dogsitter_activity = ActivityTimeDogSitter.objects.create(
+            username=dog_sitter.username,
+            activity_date="2026-01-01",
+            activity_start="08:00",
+            activity_end="09:00",
+            user_id=dog_sitter
+        )
+        dogsitter_activity.save()
+        service_request = ServiceRequests.objects.create(
+            activity_id=dogsitter_activity,
+            requesting_user=dog_owner
+        )
+        service_request.save()
+        service_request_id = service_request.id
+        service_request = ServiceRequests.objects.filter(id=service_request_id).first()
+        self.assertTrue(service_request)
+        dogsitter_activity.delete()
+        service_request.delete()
+
     def test_integration_confirm_service_request(self):
         dog_owner = Account.objects.filter(username="test2").first()
         dog_sitter = Account.objects.filter(username="test5").first()
