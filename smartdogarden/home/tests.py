@@ -151,6 +151,58 @@ class MyTestCase(unittest.TestCase):
         service_request.save()
         self.assertTrue(service_request)
 
+    def test_integration_view_my_service_requests(self):
+        dog_sitter = Account.objects.filter(username="test5").first()
+        dog_owner = Account.objects.filter(username="test2").first()
+        dogsitter_activity = ActivityTimeDogSitter.objects.create(
+            username=dog_sitter.username,
+            activity_date="2066-06-06",
+            activity_start="06:00",
+            activity_end="06:08",
+            user_id=dog_sitter
+        )
+        dogsitter_activity.save()
+        service_request = ServiceRequests.objects.create(
+            activity_id=dogsitter_activity,
+            requesting_user=dog_owner
+        )
+        service_request.save()
+        all_service_requests = ServiceRequests.objects.all()
+        my_service_requests = []
+        for i in all_service_requests:
+            if i.activity_id.user_id == dog_sitter:
+                my_service_requests.append(i)
+        self.assertTrue(my_service_requests)
+
+    def test_confirm_service_request(self):
+        dog_sitter = Account.objects.filter(username="test5").first()
+        dog_owner = Account.objects.filter(username="test2").first()
+        all_service_requests = ServiceRequests.objects.all()
+        my_service_requests = []
+        for i in all_service_requests:
+            if i.activity_id.user_id == dog_sitter:
+                my_service_requests.append(i)
+        service_request = ServiceRequests.objects.filter(id=my_service_requests[0].id).first()
+        activity_id = service_request.activity_id.id
+        dogsitter_activity = ActivityTimeDogSitter.objects.filter(id=activity_id)
+        meeting_activity = MeetingsActivity.objects.create(
+            activity_date=service_request.activity_id.activity_date,
+            activity_start=service_request.activity_id.activity_start,
+            activity_end=service_request.activity_id.activity_end,
+            dogsitter_id=dog_sitter
+        )
+        meeting_activity.save()
+        meeting = Meetings.objects.create(
+            dog_owner_id=dog_owner,
+            meetings_activity_id=meeting_activity
+        )
+        meeting.save()
+        self.assertTrue(meeting)
+        meeting.delete()
+        meeting_activity.delete()
+        service_request.delete()
+        dogsitter_activity.delete()
+
     def test_reject_service_request(self):
         dog_sitter = Account.objects.filter(username="test5").first()
         dog_owner = Account.objects.filter(username="test2").first()

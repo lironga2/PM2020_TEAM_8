@@ -261,12 +261,13 @@ def update_meeting(request):
         allactivities = ActivityTimeDogSitter.objects.all()
         myactivities = allactivities.filter(user_id=id)
         my_meetings = MeetingsActivity.objects.filter(dogsitter_id=id)
+        meeting_date = meeting_activity.activity_date
         #need to create bool function for this check..
         for i in myactivities:
             if form.cleaned_data['activity_start'] > form.cleaned_data['activity_end']:
                 messages.warning(request, f'Activity start cant be later then activity end!')
                 return redirect('view_my_meetings_dogsitter')
-            if i.activity_date == form.cleaned_data['activity_date']:
+            if i.activity_date == meeting_date:
                 if i.id != meeting_activity.id and form.cleaned_data['activity_start'] > i.activity_start and \
                         form.cleaned_data[
                             'activity_start'] < i.activity_end or form.cleaned_data[
@@ -284,7 +285,7 @@ def update_meeting(request):
             if form.cleaned_data['activity_start'] > form.cleaned_data['activity_end']:
                 messages.warning(request, f'Activity start cant be later then activity end!')
                 return redirect('view_my_meetings_dogsitter')
-            if i.activity_date == form.cleaned_data['activity_date']:
+            if i.activity_date == meeting_date:
                 if i.id != meeting_activity.id and form.cleaned_data['activity_start'] > i.activity_start and form.cleaned_data[
                     'activity_start'] < i.activity_end or form.cleaned_data['activity_end'] > i.activity_start and \
                         form.cleaned_data['activity_end'] < i.activity_end and i.id != meeting_activity.id:
