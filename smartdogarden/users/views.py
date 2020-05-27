@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import RegistrationFormDogOwner, RegistrationFormDogSitter
 from account.models import Account as User
+from gardens.models import ReportOnHazard
+from home.models import GardenAdminNotice
 
 from.forms import forms
 # Create your views here.
@@ -49,12 +51,19 @@ def d_g_a_profile(request):
 def go_to_profile(request):
     if request.user.is_authenticated:
         u1 = User.objects.filter(username=request.user.username).first()
+        test = ReportOnHazard.objects.all()
+        admin_announcement = GardenAdminNotice.objects.all()
+        #print(test)
+        #return render(request, 'dogsitterService/view_service_requests.html', {"list": my_service_requests})
         if u1.is_dog_owner:
-            return redirect('d_o_profile')
+            #return redirect('d_o_profile',)
+            return render(request, 'users/d_o_profile.html', {"list": admin_announcement})
         elif u1.is_dog_sitter:
-            return redirect('d_s_profile')
+            #return redirect('d_s_profile')
+            return render(request, 'users/d_s_profile.html', {"list": admin_announcement})
         elif u1.is_dog_garden_admin:
-            return redirect('d_g_a_profile')
+            #return redirect('d_g_a_profile')
+            return render(request, 'users/d_g_a_profile.html', {"list": admin_announcement})
         else:
             return redirect('site-home')
     else:

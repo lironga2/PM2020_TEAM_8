@@ -3,8 +3,26 @@
 {% block content %}
     {% block permission %}{% endblock permission %}
     <h1>
-        {{ user.username }}
+        welcome: {{ user.username }}
     </h1>
+    <h2>
+        Bulletin Board
+    </h2>
+
+{% block notice %}
+    <div class="col-md-8">
+        <div class="content-section">
+            <marquee scrollamount="2" behavior="scroll" direction="down">
+                {% for i in list %}
+                    <tr>
+                        <h6>{{ i.announcement_text }}</h6>
+                        <p>The announcement date is: {{ i.announcement_date }}</p>
+                    </tr>
+                {% endfor %}
+            </marquee>
+        </div>
+    </div>
+{% endblock notice %}
 
 
 {% endblock content %}

@@ -28,13 +28,7 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
-                    {% if user.is_dog_owner %}
-                        <a class="nav-item nav-link" href="{% url 'd_o_profile' %}">My home</a>
-                    {% elif user.is_dog_sitter %}
-                        <a class="nav-item nav-link" href="{% url 'd_s_profile' %}">My home</a>
-                    {% elif user.is_gog_garden_admin %}
-                        <a class="nav-item nav-link" href="{% url 'd_g_a_profile' %}">My home</a>
-                {%endif %}
+                        <a class="nav-item nav-link" href="{% url 'go_to_profile' %}">My home</a>
                 {% else %}
                     <a class="nav-item nav-link" href="{% url 'site-home' %}">Home</a>
                 {% endif %}
