@@ -68,6 +68,9 @@
                     <a class="nav-item nav-link" href="{% url 'view_gardens' %}">View gardens</a>
                     <a class="nav-item nav-link" href="{% url 'view_arrive_or_leave' %}">Arrive/Leave garden</a>
                     <a class="nav-item nav-link" href="{% url 'view_who_in_garden' %}">View who in garden</a>
+                    {% if user.is_dog_garden_admin %}
+                        <a class="nav-item nav-link" href="{% url 'garden_admin_add_announcement' %}">Add new announcement</a>
+                    {% endif %}
                     {% if user.is_dog_owner %}
                         <a class="nav-item nav-link" href="{% url 'view_my_meetings_dog_owner' %}">View my meetings</a>
                         <a class="nav-item nav-link" href="{% url 'view_dog_sitters' %}">View dog sitters</a>
