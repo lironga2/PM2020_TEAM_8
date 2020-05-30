@@ -56,27 +56,26 @@ def view_hazard_report(request):
 
 
 def report_on_hazard(request):
+    # if request.method == 'POST':
+    gname = request.GET['gname']
+    form = HazardReportForm(request.POST)
+    if form.is_valid():
+        username = request.user.username
+        user = request.user
+        new_hazard = ReportOnHazard.objects.create(
+            report_title=form.cleaned_data['report_title'],
+            report_text=form.cleaned_data['report_text'],
+            reporter_id=user,
+            reporter_user_name=username,
+            garden_name=gname,
+        )
+        new_hazard.save()
+        messages.success(request, f'Hazard report created successfully!')
+        return redirect('view_hazard_report')
+    else:
+        form = HazardReportForm()
 
-    #if request.method == 'POST':
-        gname = request.GET['gname']
-        form = HazardReportForm(request.POST)
-        if form.is_valid():
-            username = request.user.username
-            user = request.user
-            new_hazard = ReportOnHazard.objects.create(
-                report_title=form.cleaned_data['report_title'],
-                report_text=form.cleaned_data['report_text'],
-                reporter_id=user,
-                reporter_user_name=username,
-                garden_name=gname,
-            )
-            new_hazard.save()
-            messages.success(request, f'Hazard report created successfully!')
-            return redirect('view_hazard_report')
-        else:
-            form = HazardReportForm()
-
-        return render(request, 'gardens/report_on_hazard.html', {'form': form})
+    return render(request, 'gardens/report_on_hazard.html', {'form': form})
 
 
 def all_hazard_report(request):
@@ -85,8 +84,14 @@ def all_hazard_report(request):
     json_data.close()
     return render(request, 'gardens/all_hazard_report.html', {"list": data1})
 
+
 def view_all_hazard_report(request):
     gname = request.GET['gname']
     users = ReportOnHazard.objects.all()
     good = users.filter(garden_name=gname)
     return render(request, 'gardens/view_all_hazard_report.html', {"list": good})
+
+
+def admin_view_reports(request):
+    reports = ReportOnHazard.objects.all()
+    return render(request, 'gardens/view_all_hazard_report.html', {"list": reports})

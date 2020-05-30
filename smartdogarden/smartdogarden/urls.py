@@ -55,5 +55,6 @@ urlpatterns = [
     path('my_meetings_d_s/', dogsitterService_view.view_my_meetings_dogsitter, name='view_my_meetings_dogsitter'),
     path('update_meeting', dogsitterService_view.update_meeting, name='update_meeting'),
     path('garden_admin_add_announcement', home_view.garden_admin_add_announcement, name='garden_admin_add_announcement'),
+    path('view_reports', gardens_view.admin_view_reports, name='admin_view_reports'),
 
 ]
