@@ -84,7 +84,7 @@
                   {% if user.is_dog_garden_admin %}
                     <a class="nav-item nav-link" href="{% url 'admin_view_reports' %}">View reports</a>
                   {% endif %}
-                  {% if user.is_dog_garden_admin == false %}
+                  {% if user.is_dog_garden_admin == 0 %}
                     <a class="nav-item nav-link" href="{% url 'view_hazard_report' %}">Hazard report</a>
                     <a class="nav-item nav-link" href="{% url 'all_hazard_report' %}">View hazard reports</a>
                   {% endif %}
