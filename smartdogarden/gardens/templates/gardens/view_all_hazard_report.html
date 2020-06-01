@@ -10,7 +10,13 @@
                 <p>The title of the report is: {{ i.report_title }}</p>
                 <p>The status is: {{ i.report_status }}</p>
                 <p>The date is: {{ i.report_date }}</p>
-                <h6>{{ i.report_text }}</h6>
+                <p>The garden is: {{ i.garden_name }}</p>
+                <h4>{{ i.report_text }}</h4>
+                <p>
+                    <form method="get" action="/update_hazard_report_status/">
+                        <a class="btn btn-outline-info"  href="{% url 'update_hazard_report_status' %}?report_id={{ i.id }}">Update status</a>
+                    </form>
+                </p>
             </tr>
 
         </div>

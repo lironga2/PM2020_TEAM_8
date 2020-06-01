@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 import json
 from . import buttons_functions
 from django.contrib import messages
-from .models import ArriveLeaveGarden, ReportOnHazard
-from .forms import HazardReportForm
+from .models import ArriveLeaveGarden, ReportOnHazard, HazardReports
+from .forms import HazardReportForm, UpdateHazardReportStatus
 
 
 # Create your views here.
@@ -87,11 +87,62 @@ def all_hazard_report(request):
 
 def view_all_hazard_report(request):
     gname = request.GET['gname']
-    users = ReportOnHazard.objects.all()
+    users = HazardReports.objects.all()
     good = users.filter(garden_name=gname)
     return render(request, 'gardens/view_all_hazard_report.html', {"list": good})
 
 
 def admin_view_reports(request):
-    reports = ReportOnHazard.objects.all()
+    reports = HazardReports.objects.all()
     return render(request, 'gardens/view_all_hazard_report.html', {"list": reports})
+
+
+def admin_view_user_hazard_report_to_approve(request):
+    reports_to_approve = ReportOnHazard.objects.all()
+    return render(request, 'gardens/view_all_hazard_reports_to_approve.html', {"list": reports_to_approve})
+
+
+def admin_approve_hazard_report(request):
+    report_id = request.GET['report_id']
+    the_report = ReportOnHazard.objects.filter(id=report_id).first()
+    new_hazard = HazardReports.objects.create(
+        report_title=the_report.report_title,
+        report_text=the_report.report_text,
+        reporter_id=the_report.reporter_id,
+        reporter_user_name=the_report.reporter_user_name,
+        garden_name=the_report.garden_name,
+    )
+    new_hazard.save()
+    if new_hazard:
+        messages.success(request, f'Hazard report approved and created successfully!')
+        the_report.delete()
+    else:
+        messages.warning(request, f'Hazard report isnt approved successfully!')
+    return redirect('view_reports_requests')
+
+
+def admin_reject_hazard_report(request):
+    report_id = request.GET['report_id']
+    the_report = ReportOnHazard.objects.filter(id=report_id).first()
+    the_report.delete()
+    the_report = ReportOnHazard.objects.filter(id=report_id).first()
+    if the_report:
+        messages.warning(request, f'Hazard report isnt rejected successfully!')
+    else:
+        messages.success(request, f'Hazard report rejected and deleted successfully!')
+    return redirect('view_reports_requests')
+
+
+def update_hazard_report_status(request):
+    report_id = request.GET['report_id']
+    the_report = HazardReports.objects.filter(id=report_id).first()
+    form = UpdateHazardReportStatus(request.POST)
+    if form.is_valid():
+        the_report.report_status = form.cleaned_data['report_status']
+        the_report.save()
+        messages.success(request, f'Hazard report status changed successfully!')
+        return redirect('admin_view_reports')
+    else:
+        form = UpdateHazardReportStatus()
+
+    return render(request, 'gardens/update_hazard_report_status.html', {'form': form})

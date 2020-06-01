@@ -32,3 +32,13 @@ class ReportOnHazard(models.Model):
     report_status = models.CharField(max_length=100, default='Not yet addressed')
     report_title = models.CharField(max_length=100)
     report_text = models.CharField(max_length=300)
+
+
+class HazardReports(models.Model):
+    reporter_id = models.ForeignKey(Account, on_delete=models.CASCADE)
+    reporter_user_name = models.CharField(max_length=100)
+    report_date = models.DateField(default=timezone.now)
+    garden_name = models.CharField(max_length=100)
+    report_status = models.CharField(max_length=100, default='Not yet addressed')
+    report_title = models.CharField(max_length=100)
+    report_text = models.CharField(max_length=300)

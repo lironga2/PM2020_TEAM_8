@@ -1,5 +1,5 @@
 from django import forms
-from .models import ReportOnHazard
+from .models import ReportOnHazard, HazardReports
 
 
 class HazardReportForm(forms.ModelForm):
@@ -19,4 +19,20 @@ class HazardReportForm(forms.ModelForm):
         fields = [
             'report_title',
             'report_text'
+        ]
+
+
+class UpdateHazardReportStatus(forms.ModelForm):
+    hazard_status = [
+        ('נמצא בטיפול', 'נמצא בטיפול'),
+        ('טופל', 'טופל'),
+        ('Not yet addressed', 'Not yet addressed'),
+    ]
+
+    report_status = forms.ChoiceField(choices=hazard_status)
+
+    class Meta:
+        model = HazardReports
+        fields = [
+            'report_status'
         ]

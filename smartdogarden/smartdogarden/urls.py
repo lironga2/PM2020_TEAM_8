@@ -56,5 +56,9 @@ urlpatterns = [
     path('update_meeting', dogsitterService_view.update_meeting, name='update_meeting'),
     path('garden_admin_add_announcement', home_view.garden_admin_add_announcement, name='garden_admin_add_announcement'),
     path('view_reports', gardens_view.admin_view_reports, name='admin_view_reports'),
+    path('view_reports_requests', gardens_view.admin_view_user_hazard_report_to_approve, name='view_reports_requests'),
+    path('approve_hazard_report', gardens_view.admin_approve_hazard_report, name='approve_hazard_report'),
+    path('reject_hazard_report', gardens_view.admin_reject_hazard_report, name='reject_hazard_report'),
+    path('update_hazard_report_status', gardens_view.update_hazard_report_status, name='update_hazard_report_status'),
 
 ]
