@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.http import HttpResponse
 from .forms import GardenAdminNoticeForm
 from .models import GardenAdminNotice
+from account.models import Account
+
 
 # Create your views here.
 
@@ -11,7 +13,7 @@ def home(request):
 
 
 def garden_admin_add_announcement(request):
-# if request.method == 'POST':
+    # if request.method == 'POST':
     form = GardenAdminNoticeForm(request.POST)
     if form.is_valid():
         username = request.user.username
@@ -19,7 +21,7 @@ def garden_admin_add_announcement(request):
         announcement = GardenAdminNotice.objects.create(
             announcement_text=form.cleaned_data['announcement_text'],
             announces_id=user,
-                                                    )
+        )
         announcement.save()
         messages.success(request, f'Announcement has published successfully!')
         return redirect('go_to_profile')
@@ -43,3 +45,17 @@ def garden_admin_delete_announcement(request):
     else:
         messages.success(request, f'The annoucement report deleted successfully!')
     return redirect('edit_announcement_board')
+
+
+def admin_view_all_users(request):
+    return render(request, 'home/admin_view_users.html')
+
+
+def admin_view_dogsitter_users(request):
+    dogsitters_users = Account.objects.filter(is_dog_sitter=1)
+    return render(request, 'home/admin_view_dogsiiter_users.html', {"list": dogsitters_users})
+
+
+def admin_view_dog_owner_users(request):
+    dog_owner_users = Account.objects.filter(is_dog_owner=1)
+    return render(request, 'home/admin_view_dog_owner_users.html', {"list": dog_owner_users})

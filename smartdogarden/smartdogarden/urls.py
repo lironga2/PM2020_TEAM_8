@@ -62,5 +62,8 @@ urlpatterns = [
     path('update_hazard_report_status', gardens_view.update_hazard_report_status, name='update_hazard_report_status'),
     path('edit_announcement_board', home_view.garden_admin_edit_announcement_board, name='edit_announcement_board'),
     path('delete_announcement', home_view.garden_admin_delete_announcement, name='delete_announcement'),
+    path('view_users', home_view.admin_view_all_users, name='view_users'),
+    path('view_dogsitter_usres', home_view.admin_view_dogsitter_users, name='view_dogsitter_usres'),
+    path('view_dogowner_users', home_view.admin_view_dog_owner_users, name='view_dogowner_users'),
 
 ]

@@ -1,0 +1,32 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>List of dog sitter users: </h2>
+    {% for i in list %}
+        <article class="media content-section">
+        <div class="media-body">
+
+            <tr>
+                <p>Username: {{ i.username }}</p>
+                <p>First name: {{ i.first_name }}</p>
+                <p>Last name: {{ i.last_name }}</p>
+                <p>ID: {{ i.user_id }}</p>
+                <p>Email: {{ i.email }}</p>
+                <p>Phone number: {{ i.phone_number }}</p>
+                <p>City: {{ i.city }}</p>
+                <p>Street: {{ i.street }}</p>
+                <p>Apartment number: {{ i.app_number }}</p>
+                <p>Zip: {{ i.zip }}</p>
+                <p>
+                    <form method="get" action="/approve_hazard_report/">
+                        <a class="btn btn-outline-info"  href="#">Delete user</a>
+                    </form>
+                    </form>
+
+                </p>
+            </tr>
+
+        </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

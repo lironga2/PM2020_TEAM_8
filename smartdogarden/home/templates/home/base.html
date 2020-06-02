@@ -71,6 +71,7 @@
                     {% if user.is_dog_garden_admin %}
                         <a class="nav-item nav-link" href="{% url 'garden_admin_add_announcement' %}">Add new announcement</a>
                         <a class="nav-item nav-link" href="{% url 'view_reports_requests' %}">Approve/Reject hazard report</a>
+                        <a class="nav-item nav-link" href="{% url 'view_users' %}">View users</a>
                     {% endif %}
                     {% if user.is_dog_owner %}
                         <a class="nav-item nav-link" href="{% url 'view_my_meetings_dog_owner' %}">View my meetings</a>
