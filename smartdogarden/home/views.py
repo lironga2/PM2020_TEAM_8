@@ -26,3 +26,20 @@ def garden_admin_add_announcement(request):
     else:
         form = GardenAdminNoticeForm()
     return render(request, 'home/garden_admin_add_announcement.html', {'form': form})
+
+
+def garden_admin_edit_announcement_board(request):
+    reports = GardenAdminNotice.objects.all()
+    return render(request, 'home/view_annoucement_for_edit.html', {"list": reports})
+
+
+def garden_admin_delete_announcement(request):
+    report_id = request.GET['announcement_id']
+    the_report = GardenAdminNotice.objects.filter(id=report_id).first()
+    the_report.delete()
+    the_report = GardenAdminNotice.objects.filter(id=report_id).first()
+    if the_report:
+        messages.warning(request, f'The annoucement report isnt delete!')
+    else:
+        messages.success(request, f'The annoucement report deleted successfully!')
+    return redirect('edit_announcement_board')

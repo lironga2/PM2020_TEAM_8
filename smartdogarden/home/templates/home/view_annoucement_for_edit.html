@@ -1,0 +1,15 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+            {% for i in list %}
+                <article class="media content-section">
+                    <div class="media-body">
+                        <p>The announcement date is: {{ i.announcement_date }}</p>
+                        <h3>{{ i.announcement_text }}</h3>
+                        <form method="get" action="/delete_announcement/">
+                            <a class="btn btn-outline-info"  href="{% url 'delete_announcement' %}?announcement_id={{ i.id }}">Delete</a>
+                        </form>
+                    </div>
+                </article>
+            {% endfor %}
+{% endblock content %}

@@ -60,5 +60,7 @@ urlpatterns = [
     path('approve_hazard_report', gardens_view.admin_approve_hazard_report, name='approve_hazard_report'),
     path('reject_hazard_report', gardens_view.admin_reject_hazard_report, name='reject_hazard_report'),
     path('update_hazard_report_status', gardens_view.update_hazard_report_status, name='update_hazard_report_status'),
+    path('edit_announcement_board', home_view.garden_admin_edit_announcement_board, name='edit_announcement_board'),
+    path('delete_announcement', home_view.garden_admin_delete_announcement, name='delete_announcement'),
 
 ]

@@ -15,11 +15,14 @@
             <marquee scrollamount="2" behavior="scroll" direction="down">
                 {% for i in list %}
                     <tr>
-                        <h6>{{ i.announcement_text }}</h6>
+                        <h2>{{ i.announcement_text }}</h2>
                         <p>The announcement date is: {{ i.announcement_date }}</p>
                     </tr>
                 {% endfor %}
             </marquee>
+            {% if user.is_dog_garden_admin %}
+                <a class="btn btn-outline-info"  href="{% url 'edit_announcement_board' %}">Edit</a>
+            {% endif %}
         </div>
     </div>
 {% endblock notice %}
