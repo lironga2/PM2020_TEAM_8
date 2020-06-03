@@ -3,9 +3,16 @@
 {% block content %}
 <h2>MY ACTIVITIES:</h2>
     {% for i in list %}
-                    <p>
-                        Date: {{ i.activity_date }} - {{ i.activity_start }} - {{ i.activity_end }}
-                    </p>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <p>
+                            Date: {{ i.activity_date }} - {{ i.activity_start }} - {{ i.activity_end }}
+                             <form method="get" action="/delete_activity_time/">
+                                <a class="btn btn-outline-info" href="{% url 'delete_activity_time' %}?activity_id={{ i.id }}">Delete</a>
+                            </form>
+                        </p>
+                    </div>
+                </article>
     {% endfor %}
 
 <a class="btn btn-outline-info" href="{% url 'add_activity_time' %}">Add activity time</a>

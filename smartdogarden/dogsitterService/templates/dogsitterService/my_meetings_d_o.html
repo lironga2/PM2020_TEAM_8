@@ -1,7 +1,7 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h2>MY SERVICE REQUESTS:</h2>
+<h2>MY MEETINGS:</h2>
     {% for i in my_meetings %}
                     <p>
                         <form method="get" action="/cancel_meeting/">

@@ -65,5 +65,6 @@ urlpatterns = [
     path('view_users', home_view.admin_view_all_users, name='view_users'),
     path('view_dogsitter_usres', home_view.admin_view_dogsitter_users, name='view_dogsitter_usres'),
     path('view_dogowner_users', home_view.admin_view_dog_owner_users, name='view_dogowner_users'),
+    path('delete_activity_time', dogsitterService_view.delete_activity_time, name='delete_activity_time'),
 
 ]
