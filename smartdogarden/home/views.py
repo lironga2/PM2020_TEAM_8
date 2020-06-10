@@ -59,3 +59,15 @@ def admin_view_dogsitter_users(request):
 def admin_view_dog_owner_users(request):
     dog_owner_users = Account.objects.filter(is_dog_owner=1)
     return render(request, 'home/admin_view_dog_owner_users.html', {"list": dog_owner_users})
+
+
+def admin_delete_user(request):
+    user_id = request.GET['user_id']
+    user = Account.objects.filter(id=user_id).first()
+    user.delete()
+    user = Account.objects.filter(id=user_id).first()
+    if user:
+        messages.warning(request, f'The user isnt deleted!')
+    else:
+        messages.success(request, f'The user deleted successfully!')
+    return redirect('view_users')

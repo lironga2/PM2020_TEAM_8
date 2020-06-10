@@ -14,8 +14,8 @@
                 <p>Email: {{ i.email }}</p>
                 <p>Phone number: {{ i.phone_number }}</p>
                 <p>
-                    <form method="get" action="/approve_hazard_report/">
-                        <a class="btn btn-outline-info"  href="#">Delete user</a>
+                    <form method="get" action="/delete_user/">
+                        <a class="btn btn-outline-info"  href="{% url 'delete_user' %}?user_id={{ i.id }}">Delete user</a>
                     </form>
                     </form>
 
