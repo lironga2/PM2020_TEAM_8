@@ -596,6 +596,147 @@ class MyTestCase(unittest.TestCase):
         new_user_for_delete.delete()
 
 
+    def test_integration_delete_user(self):
+        new_user = Account.objects.create(
+            username="test_delete",
+            email="test_delete@testdelete.testdelete",
+            password='pbkdf2_sha256$180000$zZwGjD6j2MAe$PYA0uuF0t6ci/384ULDJLrQD2hoY/YfideKHYRZPm6A=',
+            first_name="test_delete",
+            last_name="test_delete",
+            user_id="1000100",
+            phone_number="0509999999",
+            is_dog_sitter="1"
+        )
+        new_user.save()
+        c = Client()
+        login = c.post('/login/', {'username': 'test_delete', 'password': 'l123123123'})
+        logout = c.post('/logout/')
+        all_dog_sitters = Account.objects.filter(is_dog_sitter=1)
+        user_id = new_user.id
+        the_user = all_dog_sitters.filter(id=user_id).first()
+        the_user.delete()
+        all_dog_sitters = Account.objects.filter(is_dog_sitter=1)
+        the_user = all_dog_sitters.filter(id=user_id).first()
+        self.assertFalse(the_user)
+
+    def test_integration_reject_hazard_request(self):
+        new_user = Account.objects.create(
+            username="test_reject",
+            email="test_reject@testreject.testreject",
+            password='pbkdf2_sha256$180000$zZwGjD6j2MAe$PYA0uuF0t6ci/384ULDJLrQD2hoY/YfideKHYRZPm6A=',
+            first_name="test_reject",
+            last_name="test_reject",
+            user_id="9517536",
+            phone_number="9874681783",
+            is_dog_owner="1"
+        )
+        new_user.save()
+        c = Client()
+        login = c.post('/login/', {'username': 'test_delete', 'password': 'l123123123'})
+        logout = c.post('/logout/')
+        new_user = Account.objects.filter(username="test_reject").first()
+        new_user_hazard_report_for_reject = ReportOnHazard.objects.create(
+            reporter_user_name=new_user.username,
+            garden_name="פארק קפלן",
+            report_title="test new report for reject",
+            report_text="this is report reject test",
+            reporter_id=new_user
+        )
+        new_user_hazard_report_for_reject.save()
+        report_id = new_user_hazard_report_for_reject.id
+        the_request_hazard_report = ReportOnHazard.objects.filter(id=report_id).first()
+        the_request_hazard_report.delete()
+        the_request_hazard_report = ReportOnHazard.objects.filter(id=report_id).first()
+        new_user.delete()
+        self.assertFalse(the_request_hazard_report)
+
+    def test_integration_update_hazard_status(self):
+        new_user = Account.objects.create(
+            username="test_status",
+            email="test_status@teststatus.teststatus",
+            password='pbkdf2_sha256$180000$zZwGjD6j2MAe$PYA0uuF0t6ci/384ULDJLrQD2hoY/YfideKHYRZPm6A=',
+            first_name="test_status",
+            last_name="test_status",
+            user_id="7546289",
+            phone_number="4527430005",
+            is_dog_owner="1"
+        )
+        new_user.save()
+        c = Client()
+        login = c.post('/login/', {'username': 'test_delete', 'password': 'l123123123'})
+        logout = c.post('/logout/')
+        new_user = Account.objects.filter(username="test_status").first()
+        new_user_hazard_report_for_confirm = ReportOnHazard.objects.create(
+            reporter_user_name=new_user.username,
+            garden_name="פארק קפלן",
+            report_title="test new report for integration status update",
+            report_text="this is report integration status update test",
+            reporter_id=new_user
+        )
+        new_user_hazard_report_for_confirm.save()
+        request_id = new_user_hazard_report_for_confirm.id
+        the_report_request = ReportOnHazard.objects.filter(id=request_id)
+        hazard_report = HazardReports.objects.create(
+            reporter_id=new_user_hazard_report_for_confirm.reporter_id,
+            reporter_user_name=new_user_hazard_report_for_confirm.reporter_user_name,
+            garden_name=new_user_hazard_report_for_confirm.garden_name,
+            report_title=new_user_hazard_report_for_confirm.report_title,
+            report_text=new_user_hazard_report_for_confirm.report_text
+        )
+        hazard_report.save()
+        the_report_request.delete()
+        hazard_id = hazard_report.id
+        hazard_update_status = HazardReports.objects.filter(id=hazard_id).first()
+        hazard_update_status.report_status = "test hazard status update successfully!"
+        hazard_update_status.save()
+        hazard_update_status = HazardReports.objects.filter(id=hazard_id).first()
+        self.assertEquals(hazard_update_status.report_status, "test hazard status update successfully!")
+        hazard_update_status.delete()
+        new_user.delete()
+
+    def test_integration_confirm_hazard_report(self):
+        new_user_for_test = Account.objects.create(
+            username="test_confrim_re",
+            email="test_confrim_re@testconfrimre.testconfrimre",
+            password='pbkdf2_sha256$180000$zZwGjD6j2MAe$PYA0uuF0t6ci/384ULDJLrQD2hoY/YfideKHYRZPm6A=',
+            first_name="test_confrim_re",
+            last_name="test_confrim_re",
+            user_id="7462015",
+            phone_number="1549621954",
+            is_dog_owner="1"
+        )
+        new_user_for_test.save()
+        c = Client()
+        login = c.post('/login/', {'username': 'test_delete', 'password': 'l123123123'})
+        logout = c.post('/logout/')
+        new_user = Account.objects.filter(username="test_confrim_re").first()
+        new_user_hazard_report_for_confirm = ReportOnHazard.objects.create(
+            reporter_user_name=new_user.username,
+            garden_name="פארק קפלן",
+            report_title="test new report for reject",
+            report_text="this is report reject test",
+            reporter_id=new_user
+        )
+        new_user_hazard_report_for_confirm.save()
+        report_id = new_user_hazard_report_for_confirm.id
+        the_request_hazard_report = ReportOnHazard.objects.filter(id=report_id).first()
+        the_hazard = HazardReports.objects.create(
+            reporter_id=new_user_hazard_report_for_confirm.reporter_id,
+            reporter_user_name=new_user_hazard_report_for_confirm.reporter_user_name,
+            garden_name=new_user_hazard_report_for_confirm.garden_name,
+            report_title=new_user_hazard_report_for_confirm.report_title,
+            report_text=new_user_hazard_report_for_confirm.report_text
+        )
+        the_hazard.save()
+        the_request_hazard_report.delete()
+        the_hazard_id = the_hazard.id
+        the_hazard = HazardReports.objects.filter(id=the_hazard_id).first()
+        new_user.delete()
+        self.assertTrue(the_hazard)
+        the_hazard.delete()
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
