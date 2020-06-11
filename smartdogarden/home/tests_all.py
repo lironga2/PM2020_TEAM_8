@@ -13,10 +13,10 @@ import datetime
 
 from account.models import Account
 from gardens.buttons_functions import Arrive_DB, Leave_DB
-from gardens.models import ArriveLeaveGarden, ReportOnHazard
+from gardens.models import ArriveLeaveGarden, ReportOnHazard, HazardReports
 from dogsitterService.models import ActivityTimeDogSitter, ServiceRequests, MeetingsActivity, Meetings, \
     RejectedActivity, ServiceRejected
-
+from .models import GardenAdminNotice
 
 class MyTestCase(unittest.TestCase):
     # def LogInTest(TestCase):
@@ -422,6 +422,133 @@ class MyTestCase(unittest.TestCase):
         leave.delete()
         leave = ArriveLeaveGarden.objects.filter(garden_name=garden_name).first()
         self.assertFalse(leave)
+
+    # sprint 3
+
+    def test_announcement_board(self):
+        garden_admin = Account.objects.filter(username="test7").first()
+        announcement_test = GardenAdminNotice.objects.create(
+            announces_id=garden_admin,
+            announcement_text="test_view_annou_boa.."
+        )
+        announcement_test.save()
+        announcement_test_id = announcement_test.id
+        announcement = GardenAdminNotice.objects.filter(id=announcement_test_id).first()
+        self.assertEquals(announcement.announcement_text, "test_view_annou_boa..")
+        announcement.delete()
+
+    def test_hazard_update_status(self):
+        dog_owner = Account.objects.filter(username="test2").first()
+        hazard_report_old = HazardReports.objects.create(
+            reporter_id=dog_owner,
+            reporter_user_name=dog_owner.username,
+            garden_name="פארק קפלן",
+            report_title="test status update",
+            report_text="this is a test foe status update.."
+        )
+        hazard_report_old.save()
+        hazard_id = hazard_report_old.id
+        update_hazard = HazardReports.objects.filter(id=hazard_id).first()
+        update_hazard.report_status = "test status update successfully!"
+        update_hazard.save()
+        update_hazard = HazardReports.objects.filter(id=hazard_id).first()
+        self.assertEquals(update_hazard.report_status, "test status update successfully!")
+        update_hazard.delete()
+
+    def test_add_new_announcement_to_board(self):
+        all_announcements = GardenAdminNotice.objects.all()
+        the_old_announcement_amount = len(all_announcements)
+        garden_admin = Account.objects.filter(username="test7").first()
+        announcement_test = GardenAdminNotice.objects.create(
+            announces_id=garden_admin,
+            announcement_text="test add new announcement"
+        )
+        announcement_test.save()
+        all_announcements = GardenAdminNotice.objects.all()
+        new_len = len(all_announcements)
+        self.assertEquals(new_len, the_old_announcement_amount + 1)
+        announcement_test.delete()
+
+    def test_admin_view_hazards_report_to_confirm_or_reject(self):
+        all_report_requests = ReportOnHazard.objects.all()
+        the_old_report_request_amount = len(all_report_requests)
+        dog_owner = Account.objects.filter(username="test2").first()
+        new_user_hazard_report_for_confirm = ReportOnHazard.objects.create(
+            reporter_user_name=dog_owner.username,
+            garden_name="פארק קפלן",
+            report_title="test new report for confirm",
+            report_text="this is report  confirm reject test",
+            reporter_id=dog_owner
+        )
+        new_user_hazard_report_for_confirm.save()
+        all_report_requests = ReportOnHazard.objects.all()
+        new_len = len(all_report_requests)
+        self.assertEquals(new_len, the_old_report_request_amount + 1)
+        new_user_hazard_report_for_confirm.delete()
+
+
+    def test_view_confirm_hazard(self):
+        dog_owner = Account.objects.filter(username="test2").first()
+        hazard_report = HazardReports.objects.create(
+            reporter_id=dog_owner,
+            reporter_user_name=dog_owner.username,
+            garden_name="פארק קפלן",
+            report_title="test status update",
+            report_text="this is a test foe status update.."
+        )
+        hazard_report.save()
+        all_confirm_hazard = HazardReports.objects.all()
+        self.assertTrue(all_confirm_hazard)
+        hazard_report.delete()
+
+    def test_delete_announcement_from_board(self):
+        garden_admin = Account.objects.filter(username="test7").first()
+        announcement_test = GardenAdminNotice.objects.create(
+            announces_id=garden_admin,
+            announcement_text="test delete an announcement"
+        )
+        announcement_test.save()
+        announcement_test_id = announcement_test.id
+        announcement_test.delete()
+        announcement_test = GardenAdminNotice.objects.filter(id=announcement_test_id).first()
+        self.assertFalse(announcement_test)
+
+
+    def test_delete_dog_owner_user(self):
+        dog_owner_to_delete = Account.objects.create(
+            username="dog_owner_delete",
+            email="dog_owner_delete@dogownerdelete.dogownerdelete",
+            password='pbkdf2_sha256$180000$zZwGjD6j2MAe$PYA0uuF0t6ci/384ULDJLrQD2hoY/YfideKHYRZPm6A=',
+            first_name="dog_owner_delete",
+            last_name="dog_owner_delete",
+            user_id="7536636",
+            phone_number="9991174225",
+            is_dog_owner="1"
+        )
+        dog_owner_to_delete.save()
+        dog_owner_id = dog_owner_to_delete.id
+        dog_owner_to_delete = Account.objects.filter(id=dog_owner_id).first()
+        dog_owner_to_delete.delete()
+        dog_owner_to_delete = Account.objects.filter(id=dog_owner_id).first()
+        self.assertFalse(dog_owner_to_delete)
+
+    def test_delete_dog_sitter_user(self):
+        dog_sitter_to_delete = Account.objects.create(
+            username="dog_sitter_delete",
+            email="dog_sitter_delete@dogsitterdelete.dogsitterdelete",
+            password='pbkdf2_sha256$180000$zZwGjD6j2MAe$PYA0uuF0t6ci/384ULDJLrQD2hoY/YfideKHYRZPm6A=',
+            first_name="dog_sitter_delete",
+            last_name="dog_sitter_delete",
+            user_id="78745125",
+            phone_number="8887547785",
+            is_dog_sitter="1"
+        )
+        dog_sitter_to_delete.save()
+        dog_sitter_id = dog_sitter_to_delete.id
+        dog_sitter_to_delete = Account.objects.filter(id=dog_sitter_id).first()
+        dog_sitter_to_delete.delete()
+        dog_sitter_to_delete = Account.objects.filter(id=dog_sitter_id).first()
+        self.assertFalse(dog_sitter_to_delete)
 
 
 if __name__ == '__main__':
