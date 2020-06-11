@@ -608,9 +608,6 @@ class MyTestCase(unittest.TestCase):
             is_dog_sitter="1"
         )
         new_user.save()
-        c = Client()
-        login = c.post('/login/', {'username': 'test_delete', 'password': 'l123123123'})
-        logout = c.post('/logout/')
         all_dog_sitters = Account.objects.filter(is_dog_sitter=1)
         user_id = new_user.id
         the_user = all_dog_sitters.filter(id=user_id).first()
@@ -631,9 +628,6 @@ class MyTestCase(unittest.TestCase):
             is_dog_owner="1"
         )
         new_user.save()
-        c = Client()
-        login = c.post('/login/', {'username': 'test_delete', 'password': 'l123123123'})
-        logout = c.post('/logout/')
         new_user = Account.objects.filter(username="test_reject").first()
         new_user_hazard_report_for_reject = ReportOnHazard.objects.create(
             reporter_user_name=new_user.username,
@@ -662,9 +656,6 @@ class MyTestCase(unittest.TestCase):
             is_dog_owner="1"
         )
         new_user.save()
-        c = Client()
-        login = c.post('/login/', {'username': 'test_delete', 'password': 'l123123123'})
-        logout = c.post('/logout/')
         new_user = Account.objects.filter(username="test_status").first()
         new_user_hazard_report_for_confirm = ReportOnHazard.objects.create(
             reporter_user_name=new_user.username,
@@ -706,9 +697,6 @@ class MyTestCase(unittest.TestCase):
             is_dog_owner="1"
         )
         new_user_for_test.save()
-        c = Client()
-        login = c.post('/login/', {'username': 'test_delete', 'password': 'l123123123'})
-        logout = c.post('/logout/')
         new_user = Account.objects.filter(username="test_confrim_re").first()
         new_user_hazard_report_for_confirm = ReportOnHazard.objects.create(
             reporter_user_name=new_user.username,
