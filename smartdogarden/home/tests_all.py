@@ -550,6 +550,52 @@ class MyTestCase(unittest.TestCase):
         dog_sitter_to_delete = Account.objects.filter(id=dog_sitter_id).first()
         self.assertFalse(dog_sitter_to_delete)
 
+    def test_view_dogsitters_users(self):
+        all_dogsitters_users = Account.objects.filter(is_dog_sitter=1)
+        self.assertTrue(all_dogsitters_users)
+
+    def test_view_dog_owner_users(self):
+        all_dog_owner_users = Account.objects.filter(is_dog_owner=1)
+        self.assertTrue(all_dog_owner_users)
+
+    def test_delete_dogsitter_activity_time(self):
+        dog_sitter = Account.objects.filter(username="test5").first()
+        dog_sitter_activity = ActivityTimeDogSitter.objects.create(
+            username=dog_sitter.username,
+            activity_date="2011-11-11",
+            activity_start="08:30",
+            activity_end="11:30",
+            user_id=dog_sitter
+        )
+        dog_sitter_activity.save()
+        activity_id = dog_sitter_activity.id
+        dog_sitter_activity.delete()
+        dog_sitter_activity = ActivityTimeDogSitter.objects.filter(id=activity_id)
+        self.assertFalse(dog_sitter_activity)
+
+    # sprint3 integration tests
+
+    def test_integration_register_login_logout_user(self):
+        new_user = Account.objects.create(
+            username="test_r_l_l",
+            email="test_r_l_l@testrll.testrll",
+            password='pbkdf2_sha256$180000$zZwGjD6j2MAe$PYA0uuF0t6ci/384ULDJLrQD2hoY/YfideKHYRZPm6A=',
+            first_name="test_r_l_l",
+            last_name="test_r_l_l",
+            user_id="7856989",
+            phone_number="8885222963",
+            is_dog_owner="1"
+        )
+        new_user.save()
+        new_user_id = new_user.id
+        c = Client()
+        login = c.post('/login/', {'username': 'test_r_l_l', 'password': 'l123123123'})
+        logout = c.post('/logout/')
+        new_user_for_delete = Account.objects.filter(id=new_user_id)
+        self.assertTrue(logout)
+        new_user_for_delete.delete()
+
+
 
 if __name__ == '__main__':
     unittest.main()
