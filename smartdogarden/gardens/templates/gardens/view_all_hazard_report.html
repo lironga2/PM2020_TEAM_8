@@ -18,7 +18,9 @@
                 <h4>{{ i.report_text }}</h4>
                 <p>
                     <form method="get" action="/update_hazard_report_status/">
-                        <a class="btn btn-outline-info"  href="{% url 'update_hazard_report_status' %}?report_id={{ i.id }}"><img src="{% static 'home/img/updatestatus.png' %}" style="height: 50px; width: 160px;"/></a>
+                        {% if user.is_dog_garden_admin %}
+                            <a class="btn btn-outline-info"  href="{% url 'update_hazard_report_status' %}?report_id={{ i.id }}"><img src="{% static 'home/img/updatestatus.png' %}" style="height: 50px; width: 160px;"/></a>
+                        {% endif %}
                     </form>
                 </p>
             </tr>
