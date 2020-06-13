@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     Hazard view
 {% endblock page-title %}
@@ -17,7 +18,7 @@
                 <h4>{{ i.report_text }}</h4>
                 <p>
                     <form method="get" action="/update_hazard_report_status/">
-                        <a class="btn btn-outline-info"  href="{% url 'update_hazard_report_status' %}?report_id={{ i.id }}">Update status</a>
+                        <a class="btn btn-outline-info"  href="{% url 'update_hazard_report_status' %}?report_id={{ i.id }}"><img src="{% static 'home/img/updatestatus.png' %}" style="height: 50px; width: 160px;"/></a>
                     </form>
                 </p>
             </tr>

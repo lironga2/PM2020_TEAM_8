@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     Arrive\Leave garden
 {% endblock page-title %}
@@ -10,8 +11,8 @@
                         <p>
                             <form method="get" action="/view_test/">
                                 <a class="gname">{{ i.name }}</a>
-                                <a class="btn btn-outline-info"  href="{% url 'view_test' %}?gname={{ i.name }}" >Arrive</a>
-                                <a class="btn btn-outline-info"  href="{% url 'view_test' %}?gname=Leave">Leave</a>
+                                <a class="btn btn-outline-info"  href="{% url 'view_test' %}?gname={{ i.name }}" ><img src="{% static 'home/img/arrive.png' %}" style="height: 50px; width: 160px;"/></a>
+                                <a class="btn btn-outline-info"  href="{% url 'view_test' %}?gname=Leave"><img src="{% static 'home/img/leave.png' %}" style="height: 50px; width: 160px;"/></a>
                             </form>
                         </p>
                     </div>

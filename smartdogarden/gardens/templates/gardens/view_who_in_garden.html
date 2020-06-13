@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     Who in garden
 {% endblock page-title %}
@@ -10,7 +11,7 @@
                         <p>
                             <form method="get" action="/view_users_in_garden/">
                                 <a class="gname">{{ i.name }}</a>
-                                <a class="btn btn-outline-info"  href="{% url 'view_users_in_garden' %}?gname={{ i.name }}" >Choose</a>
+                                <a class="btn btn-outline-info"  href="{% url 'view_users_in_garden' %}?gname={{ i.name }}" ><img src="{% static 'home/img/choose.png' %}" style="height: 50px; width: 160px;"/></a>
                             </form>
                         </p>
                     </div>

@@ -7,8 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     {% load static %}
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
     <link rel="stylesheet" type="text/css" href="{% static 'home/main.css' %}">
 
         <title>SmartDoGarden - {% block page-title %}{% endblock page-title %}</title>
@@ -17,28 +19,28 @@
 </head>
 <body>
     <header class="site-header">
-      <nav class="navbar navbar-expand-md   bg-steel fixed-top">
+      <nav class="navbar navbar-expand-md navbar-dark bg-light fixed-top">
         <div class="container">
           <a class="navbar-brand mr-4" href="/"><img src="{% static 'home/img/logo.png' %}" style="height: 40px; width: 160px;"/></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
+            <div class="navbar-nav mr-auto nav-link">
                 {% if user.is_authenticated %}
-                        <a class="nav-item nav-link" href="{% url 'go_to_profile' %}">My home</a>
+                        <a class="nav-item nav-link " href="{% url 'go_to_profile' %}"><img src="{% static 'home/img/myhome.png' %}" style="height: 50px; width: 160px;"/></a>
                 {% else %}
-                    <a class="nav-item nav-link" href="{% url 'site-home' %}">Home</a>
+                    <a class="nav-item nav-link" href="{% url 'site-home' %}"><img src="{% static 'home/img/home.png' %}" style="height: 50px; width: 160px;"/></a>
                 {% endif %}
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
                 {% if user.is_authenticated %}
-                    <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                    <a class="nav-item nav-link" href="{% url 'logout' %}"><img src="{% static 'home/img/logout.png' %}" style="height: 50px; width: 160px;"/></a>
                 {% else %}
-                    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                    <a class="nav-item nav-link" href="{% url 'register_D_O' %}">Register as dog owner</a>
-                    <a class="nav-item nav-link" href="{% url 'register_D_S' %}">Register as dog sitter</a>
+                    <a class="nav-item nav-link" href="{% url 'login' %}"><img src="{% static 'home/img/login.png' %}" style="height: 50px; width: 160px;"/></a>
+                    <a class="nav-item nav-link" href="{% url 'register_D_O' %}"><img src="{% static 'home/img/registerasdogowner.png' %}" style="height: 50px; width: 160px;"/></a>
+                    <a class="nav-item nav-link" href="{% url 'register_D_S' %}"><img src="{% static 'home/img/registerasdogsitter.png' %}" style="height: 50px; width: 160px;"/></a>
                 {% endif %}
             </div>
           </div>
@@ -60,36 +62,33 @@
         <div class="col-md-4">
             {% if user.is_authenticated %}
               <div class="content-section">
-                <h3>Our Sidebar</h3>
-                <p class='text-muted'>You can put any information here you'd like.
                   <ul class="list-group">
                     <a class="nav-item nav-link" href="{% url 'view_gardens' %}"><img src="{% static 'home/img/viewgardens.png' %}" style="height: 50px; width: 160px;"/></a>
-                    <a class="nav-item nav-link" href="{% url 'view_arrive_or_leave' %}">Arrive/Leave garden</a>
-                    <a class="nav-item nav-link" href="{% url 'view_who_in_garden' %}">View who in garden</a>
+                    <a class="nav-item nav-link" href="{% url 'view_arrive_or_leave' %}"><img src="{% static 'home/img/arriveleavegarden.png' %}" style="height: 50px; width: 160px;"/></a>
+                    <a class="nav-item nav-link" href="{% url 'view_who_in_garden' %}"><img src="{% static 'home/img/whointhegarden.png' %}" style="height: 50px; width: 160px;"/></a>
                     {% if user.is_dog_garden_admin %}
-                        <a class="nav-item nav-link" href="{% url 'garden_admin_add_announcement' %}">Add new announcement</a>
-                        <a class="nav-item nav-link" href="{% url 'view_reports_requests' %}">Approve/Reject hazard report</a>
-                        <a class="nav-item nav-link" href="{% url 'view_users' %}">View users</a>
+                        <a class="nav-item nav-link" href="{% url 'garden_admin_add_announcement' %}"><img src="{% static 'home/img/addnewannouncement.png' %}" style="height: 50px; width: 160px;"/></a>
+                        <a class="nav-item nav-link" href="{% url 'view_reports_requests' %}"><img src="{% static 'home/img/approverejecthazardreport.png' %}" style="height: 50px; width: 160px;"/></a>
+                        <a class="nav-item nav-link" href="{% url 'view_users' %}"><img src="{% static 'home/img/viewusers.png' %}" style="height: 50px; width: 160px;"/></a>
+                        <a class="nav-item nav-link" href="{% url 'admin_view_reports' %}"><img src="{% static 'home/img/viewreports.png' %}" style="height: 50px; width: 160px;"/></a>
                     {% endif %}
                     {% if user.is_dog_owner %}
-                        <a class="nav-item nav-link" href="{% url 'view_my_meetings_dog_owner' %}">View my meetings</a>
-                        <a class="nav-item nav-link" href="{% url 'view_dog_sitters' %}">View dog sitters</a>
-                        <a class="nav-item nav-link" href="{% url 'view_dogsitter_service_coordination' %}">Dogsitter service coordination</a>
+                        <a class="nav-item nav-link" href="{% url 'view_my_meetings_dog_owner' %}"><img src="{% static 'home/img/mymeetings.png' %}" style="height: 50px; width: 160px;"/></a>
+                        <a class="nav-item nav-link" href="{% url 'view_dog_sitters' %}"><img src="{% static 'home/img/dogsittersdetails.png' %}" style="height: 50px; width: 160px;"/></a>
+                        <a class="nav-item nav-link" href="{% url 'view_dogsitter_service_coordination' %}"><img src="{% static 'home/img/dogsitterservicecoordination.png' %}" style="height: 50px; width: 160px;"/></a>
                     {% endif %}
                     {% if user.is_dog_sitter %}
-                        <a class="nav-item nav-link" href="{% url 'view_my_meetings_dogsitter' %}">View my meetings</a>
-                        <a class="nav-item nav-link" href="{% url 'activity_time' %}">Activity time</a>
-                        <a class="nav-item nav-link" href="{% url 'view_service_requests' %}">My service requests</a>
+                        <a class="nav-item nav-link" href="{% url 'view_my_meetings_dogsitter' %}"><img src="{% static 'home/img/mymeetings.png' %}" style="height: 50px; width: 160px;"/></a>
+                        <a class="nav-item nav-link" href="{% url 'activity_time' %}"><img src="{% static 'home/img/myactivities.png' %}" style="height: 50px; width: 160px;"/></a>
+                        <a class="nav-item nav-link" href="{% url 'view_service_requests' %}"><img src="{% static 'home/img/myservicerequest.png' %}" style="height: 50px; width: 160px;"/></a>
                     {% endif %}
                   {% if user.is_dog_garden_admin %}
-                    <a class="nav-item nav-link" href="{% url 'admin_view_reports' %}">View reports</a>
+
                   {% endif %}
                   {% if user.is_dog_garden_admin == 0 %}
-                    <a class="nav-item nav-link" href="{% url 'view_hazard_report' %}">Hazard report</a>
-                    <a class="nav-item nav-link" href="{% url 'all_hazard_report' %}">View hazard reports</a>
+                    <a class="nav-item nav-link" href="{% url 'view_hazard_report' %}"><img src="{% static 'home/img/reportonhazard.png' %}" style="height: 50px; width: 160px;"/></a>
+                    <a class="nav-item nav-link" href="{% url 'all_hazard_report' %}"><img src="{% static 'home/img/viewhazardreports.png' %}" style="height: 50px; width: 160px;"/></a>
                   {% endif %}
-                    <li class="list-group-item list-group-item-light">Calendars</li>
-                    <li class="list-group-item list-group-item-light">etc</li>
                   </ul>
                 </p>
               </div>

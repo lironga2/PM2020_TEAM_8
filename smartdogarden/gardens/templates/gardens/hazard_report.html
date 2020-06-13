@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     Hazard report
 {% endblock page-title %}
@@ -10,7 +11,7 @@
                         <p>
                             <form method="get" action="/report_on_hazard/">
                                 <a class="gname">{{ i.name }}</a>
-                                <a class="btn btn-outline-info"  href="{% url 'report_on_hazard' %}?gname={{ i.name }}" >Report</a>
+                                <a class="btn btn-outline-info"  href="{% url 'report_on_hazard' %}?gname={{ i.name }}" ><img src="{% static 'home/img/report.png' %}" style="height: 50px; width: 160px;"/></a>
                             </form>
                         </p>
                     </div>

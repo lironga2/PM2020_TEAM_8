@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     Login
 {% endblock page-title %}
@@ -15,14 +16,14 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">
-                    Sign in
+                    <img src="{% static 'home/img/signin.png' %}" style="height: 50px; width: 160px;"/>
                 </button>
             </div>
               <div class ="border-top pt-3">
                 <small class="text-muted">
                     Need an account?
-                    <a class="ml-2" href="{% url 'register_D_O' %}">Sign up as dog owner</a>
-                    <a class="ml-2" href="{% url 'register_D_S' %}">Sign up as dog sitter</a>
+                    <a class="ml-2" href="{% url 'register_D_O' %}"><img src="{% static 'home/img/signupasdogowner.png' %}" style="height: 50px; width: 160px;"/></a>
+                    <a class="ml-2" href="{% url 'register_D_S' %}"><img src="{% static 'home/img/signupasdogsitter.png' %}" style="height: 50px; width: 160px;"/></a>
                 </small>
             </div>
         </form>

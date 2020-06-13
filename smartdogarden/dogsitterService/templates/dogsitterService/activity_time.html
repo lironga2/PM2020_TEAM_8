@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     Activity manage
 {% endblock page-title %}
@@ -11,13 +12,13 @@
                         <p>
                             Date: {{ i.activity_date }} - {{ i.activity_start }} - {{ i.activity_end }}
                              <form method="get" action="/delete_activity_time/">
-                                <a class="btn btn-outline-info" href="{% url 'delete_activity_time' %}?activity_id={{ i.id }}">Delete</a>
+                                <a class="btn btn-outline-info" href="{% url 'delete_activity_time' %}?activity_id={{ i.id }}"><img src="{% static 'home/img/delete.png' %}" style="height: 50px; width: 160px;"/></a>
                             </form>
                         </p>
                     </div>
                 </article>
     {% endfor %}
 
-<a class="btn btn-outline-info" href="{% url 'add_activity_time' %}">Add activity time</a>
+<a class="btn btn-outline-info" href="{% url 'add_activity_time' %}"><img src="{% static 'home/img/addactivitytime.png' %}" style="height: 50px; width: 160px;"/></a>
 
 {% endblock content %}

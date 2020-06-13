@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     My meetings
 {% endblock page-title %}
@@ -19,9 +20,9 @@
                             <p>
                                 phonenumber: {{ i.dog_owner_id.phone_number }}
                             </p>
-                                <a class="btn btn-outline-info" href="{% url 'cancel_meeting' %}?meeting_id={{ i.id }}">Cancel meeting</a>
+                                <a class="btn btn-outline-info" href="{% url 'cancel_meeting' %}?meeting_id={{ i.id }}"><img src="{% static 'home/img/canclemeeting.png' %}" style="height: 50px; width: 160px;"/></a>
                                 <form method="get" action="/update_meeting/">
-                                    <a class="btn btn-outline-info" href="{% url 'update_meeting' %}?meetings_activity_id={{ i.meetings_activity_id.id }}">Edit</a>
+                                    <a class="btn btn-outline-info" href="{% url 'update_meeting' %}?meetings_activity_id={{ i.meetings_activity_id.id }}"><img src="{% static 'home/img/edit.png' %}" style="height: 50px; width: 160px;"/></a>
                                 </form>
                             </form>
                         </p>

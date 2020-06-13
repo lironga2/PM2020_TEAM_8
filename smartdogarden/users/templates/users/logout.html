@@ -1,4 +1,5 @@
 {% extends "home/base.html" %}
+{% load static %}
 {% block page-title %}
     Logout
 {% endblock page-title %}
@@ -6,7 +7,7 @@
     <h2>You have been logout</h2>
     <div class ="border-top pt-3">
         <small class="text-muted">
-            <a class="ml-2" href="{% url 'login' %}">Log in again</a>
+            <a class="ml-2" href="{% url 'login' %}"><img src="{% static 'home/img/loginagain.png' %}" style="height: 50px; width: 160px;"/></a>
         </small>
     </div>
 {% endblock content %}

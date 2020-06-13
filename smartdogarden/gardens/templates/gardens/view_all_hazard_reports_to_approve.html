@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     Users hazard report
 {% endblock page-title %}
@@ -17,9 +18,9 @@
                 <h4>{{ i.report_text }}</h4>
                 <p>
                     <form method="get" action="/approve_hazard_report/">
-                        <a class="btn btn-outline-info"  href="{% url 'approve_hazard_report' %}?report_id={{ i.id }}">Approve</a>
+                        <a class="btn btn-outline-info"  href="{% url 'approve_hazard_report' %}?report_id={{ i.id }}"><img src="{% static 'home/img/approve.png' %}" style="height: 50px; width: 160px;"/></a>
                         <form method="get" action="/reject_hazard_report/">
-                        <a class="btn btn-outline-info"  href="{% url 'reject_hazard_report' %}?report_id={{ i.id }}">Reject</a>
+                        <a class="btn btn-outline-info"  href="{% url 'reject_hazard_report' %}?report_id={{ i.id }}"><img src="{% static 'home/img/reject.png' %}" style="height: 50px; width: 160px;"/></a>
                     </form>
                     </form>
 

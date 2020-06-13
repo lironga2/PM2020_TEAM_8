@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     Announcement edit
 {% endblock page-title %}
@@ -10,7 +11,7 @@
                         <p>The announcement date is: {{ i.announcement_date }}</p>
                         <h3>{{ i.announcement_text }}</h3>
                         <form method="get" action="/delete_announcement/">
-                            <a class="btn btn-outline-info"  href="{% url 'delete_announcement' %}?announcement_id={{ i.id }}">Delete</a>
+                            <a class="btn btn-outline-info"  href="{% url 'delete_announcement' %}?announcement_id={{ i.id }}"><img src="{% static 'home/img/delete.png' %}" style="height: 50px; width: 160px;"/></a>
                         </form>
                     </div>
                 </article>

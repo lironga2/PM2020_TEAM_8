@@ -1,13 +1,14 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     View users
 {% endblock page-title %}
 {% block content %}
         <p>
-         <a class="btn btn-outline-info"  href="{% url 'view_dogsitter_usres' %}">View dog sitter users</a>
+         <a class="btn btn-outline-info"  href="{% url 'view_dogsitter_usres' %}"><img src="{% static 'home/img/viewdogsittersusers.png' %}" style="height: 50px; width: 160px;"/></a>
         </p>
         <p>
-         <a class="btn btn-outline-info"  href="{% url 'view_dogowner_users' %}">view dog owner users</a>
+         <a class="btn btn-outline-info"  href="{% url 'view_dogowner_users' %}"><img src="{% static 'home/img/viewdogownerusers.png' %}" style="height: 50px; width: 160px;"/></a>
         </p>
 {% endblock content %}

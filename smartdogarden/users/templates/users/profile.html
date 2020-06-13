@@ -1,10 +1,13 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     My home page
 {% endblock page-title %}
 {% block content %}
     {% block permission %}{% endblock permission %}
+
+
     <h1>
         welcome: {{ user.username }}
     </h1>
@@ -24,7 +27,7 @@
                 {% endfor %}
             </marquee>
             {% if user.is_dog_garden_admin %}
-                <a class="btn btn-outline-info"  href="{% url 'edit_announcement_board' %}">Edit</a>
+                <a class="nav-item nav-link" href="{% url 'edit_announcement_board' %}"><img src="{% static 'home/img/edit.png' %}" style="height: 50px; width: 160px;"/></a>
             {% endif %}
         </div>
     </div>

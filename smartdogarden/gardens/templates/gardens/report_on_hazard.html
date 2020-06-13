@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block page-title %}
     Hazard report
 {% endblock page-title %}
@@ -16,7 +17,7 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">
-                    Report
+                    <img src="{% static 'home/img/report.png' %}" style="height: 50px; width: 160px;"/>
                 </button>
             </div>
         </form>

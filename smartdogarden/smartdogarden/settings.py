@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'home.apps.HomeConfig',
     'crispy_forms',
+    'bootstrap4',
     'gardens.apps.GardensConfig',
     'dogsitterService',
 ]
