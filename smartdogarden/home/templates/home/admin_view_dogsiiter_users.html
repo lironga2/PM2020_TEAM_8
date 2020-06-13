@@ -19,7 +19,7 @@
                 <p>Phone number: {{ i.phone_number }}</p>
                 <p>
                     <form method="get" action="/delete_user/">
-                        <a class="btn btn-outline-info"  href="{% url 'delete_user' %}?user_id={{ i.id }}"><img src="{% static 'home/img/deleteuser.png' %}" style="height: 50px; width: 160px;"/> user</a>
+                        <a class="btn btn-outline-info"  href="{% url 'delete_user' %}?user_id={{ i.id }}"><img src="{% static 'home/img/deleteuser.png' %}" style="height: 50px; width: 160px;"/></a>
                     </form>
                     </form>
 
