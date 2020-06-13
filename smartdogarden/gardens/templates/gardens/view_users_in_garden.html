@@ -1,12 +1,19 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% block page-title %}
+    Who in garden
+{% endblock page-title %}
 {% block content %}
     <h1>List of user name that in the garden</h1>
     {% for i in list %}
-        <table>
-            <tr>
-                <td>{{ i.username }}</td>
-            </tr>
-        </table>
+    <article class="media content-section">
+        <div class="media-body">
+            <table>
+                <tr>
+                    <td>{{ i.username }}</td>
+                </tr>
+            </table>
+        </div>
+    </article>
     {% endfor %}
 {% endblock content %}

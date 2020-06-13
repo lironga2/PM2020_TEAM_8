@@ -1,13 +1,30 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% block page-title %}
+    My meetings
+{% endblock page-title %}
 {% block content %}
 <h2>MY MEETINGS:</h2>
     {% for i in my_meetings %}
-                    <p>
-                        <form method="get" action="/cancel_meeting/">
-                            Date: {{ i.meetings_activity_id.activity_date }} - start hour: {{ i.meetings_activity_id.activity_start }} - end hour: {{ i.meetings_activity_id.activity_end }} Dog Sitter Details: first name: {{ i.meetings_activity_id.dogsitter_id.first_name }} - last name: {{ i.meetings_activity_id.dogsitter_id.last_name }} - phonenumber: {{ i.meetings_activity_id.dogsitter_id.phone_number }}<a class="btn btn-outline-info" href="{% url 'cancel_meeting' %}?meeting_id={{ i.id }}">Cancel meeting</a>
-                        </form>
-                    </p>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <p>
+                            <form method="get" action="/cancel_meeting/">
+                                <p>
+                                    Date: {{ i.meetings_activity_id.activity_date }} . {{ i.meetings_activity_id.activity_start }} - {{ i.meetings_activity_id.activity_end }}
+                                </p>
+                                    Dog Sitter: first name: {{ i.meetings_activity_id.dogsitter_id.first_name }} , last name: {{ i.meetings_activity_id.dogsitter_id.last_name }}
+                                </p>
+                                <p>
+                                    phonenumber: {{ i.meetings_activity_id.dogsitter_id.phone_number }}
+                                </p>
+                                <p>
+                                    <a class="btn btn-outline-info" href="{% url 'cancel_meeting' %}?meeting_id={{ i.id }}">Cancel meeting</a>
+                                </p>
+                            </form>
+                        </p>
+                    </div>
+                </article>
 
 
 
@@ -16,9 +33,21 @@
 
 <h2>MY CANCELED MEETINGS:</h2>
     {% for i in my_cancel_meetings %}
-                    <p>
-                            Date: {{ i.rejected_activity_id.activity_date }} - start hour: {{ i.rejected_activity_id.activity_start }} - end hour: {{ i.rejected_activity_id.activity_end }} Dog Sitter Details: first name: {{ i.rejected_activity_id.dogsitter_id.first_name }} - last name: {{ i.rejected_activity_id.dogsitter_id.last_name }} - phonenumber: {{ i.rejected_activity_id.dogsitter_id.phone_number }}
-                    </p>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <p>
+                            <p>
+                                Date: {{ i.rejected_activity_id.activity_date }} . {{ i.rejected_activity_id.activity_start }} - {{ i.rejected_activity_id.activity_end }}
+                            </p>
+                            <p>
+                                Dog Sitter: first name: {{ i.rejected_activity_id.dogsitter_id.first_name }} , last name: {{ i.rejected_activity_id.dogsitter_id.last_name }}
+                            </p>
+                            <p>
+                                phonenumber: {{ i.rejected_activity_id.dogsitter_id.phone_number }}
+                            </p>
+                        </p>
+                    </div>
+                </article>
 
 
 
@@ -28,9 +57,21 @@
 
 <h2>MY REJECTED SERVICE REQUESTS:</h2>
     {% for i in my_rejected_requests %}
-                    <p>
-                            Date: {{ i.rejected_activity_id.activity_date }} - start hour: {{ i.rejected_activity_id.activity_start }} - end hour: {{ i.rejected_activity_id.activity_end }} Dog Sitter Details: first name: {{ i.rejected_activity_id.dogsitter_id.first_name }} - last name: {{ i.rejected_activity_id.dogsitter_id.last_name }} - phonenumber: {{ i.rejected_activity_id.dogsitter_id.phone_number }}
-                    </p>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <p>
+                            <p>
+                                Date: {{ i.rejected_activity_id.activity_date }} . {{ i.rejected_activity_id.activity_start }} -  {{ i.rejected_activity_id.activity_end }}
+                            </p>
+                            <p>
+                                Dog Sitter: first name: {{ i.rejected_activity_id.dogsitter_id.first_name }} , last name: {{ i.rejected_activity_id.dogsitter_id.last_name }}
+                            </p>
+                            <p>
+                                phonenumber: {{ i.rejected_activity_id.dogsitter_id.phone_number }}
+                            </p>
+                        </p>
+                    </div>
+                </article>
 
 
 

@@ -1,5 +1,8 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% block page-title %}
+    Users hazard report
+{% endblock page-title %}
 {% block content %}
 <h2>List of hazards: </h2>
     {% for i in list %}

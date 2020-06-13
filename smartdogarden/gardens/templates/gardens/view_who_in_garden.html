@@ -1,13 +1,20 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% block page-title %}
+    Who in garden
+{% endblock page-title %}
 {% block content %}
             {% for i in list %}
-                    <p>
-                        <form method="get" action="/view_users_in_garden/">
-                            <a class="gname">{{ i.name }}</a>
-                            <a class="btn btn-outline-info"  href="{% url 'view_users_in_garden' %}?gname={{ i.name }}" >Choose</a>
-                        </form>
-                    </p>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <p>
+                            <form method="get" action="/view_users_in_garden/">
+                                <a class="gname">{{ i.name }}</a>
+                                <a class="btn btn-outline-info"  href="{% url 'view_users_in_garden' %}?gname={{ i.name }}" >Choose</a>
+                            </form>
+                        </p>
+                    </div>
+                </article>
             {% endfor %}
 {% endblock content %}
 

@@ -1,11 +1,18 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% block page-title %}
+    Gardens view
+{% endblock page-title %}
 {% block content %}
     {% for i in list %}
-        <table>
-            <tr>
-                <td>{{ i.name }}</td>
-            </tr>
-        </table>
+    <article class="media content-section">
+        <div class="media-body">
+            <table>
+                <tr>
+                    <td>{{ i.name }}</td>
+                </tr>
+            </table>
+        </div>
+    </article>
     {% endfor %}
 {% endblock content %}

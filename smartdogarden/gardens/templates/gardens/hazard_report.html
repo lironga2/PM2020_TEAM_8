@@ -1,13 +1,20 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% block page-title %}
+    Hazard report
+{% endblock page-title %}
 {% block content %}
             {% for i in list %}
-                    <p>
-                        <form method="get" action="/report_on_hazard/">
-                            <a class="gname">{{ i.name }}</a>
-                            <a class="btn btn-outline-info"  href="{% url 'report_on_hazard' %}?gname={{ i.name }}" >Report</a>
-                        </form>
-                    </p>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <p>
+                            <form method="get" action="/report_on_hazard/">
+                                <a class="gname">{{ i.name }}</a>
+                                <a class="btn btn-outline-info"  href="{% url 'report_on_hazard' %}?gname={{ i.name }}" >Report</a>
+                            </form>
+                        </p>
+                    </div>
+                </article>
             {% endfor %}
 {% endblock content %}
 

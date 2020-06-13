@@ -1,5 +1,8 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% block page-title %}
+    View users
+{% endblock page-title %}
 {% block content %}
         <p>
          <a class="btn btn-outline-info"  href="{% url 'view_dogsitter_usres' %}">View dog sitter users</a>

@@ -134,6 +134,23 @@ def meeting_approval(request):
             meetings_activity_id=new_meeting_activity
         )
         if new_meeting:
+            activity_id = activity.id
+            my_activity = ActivityTimeDogSitter.objects.filter(id=activity_id).first()
+            my_activity_requests = ServiceRequests.objects.filter(activity_id=my_activity)
+            if my_activity_requests:
+                for i in my_activity_requests:
+                    new_rejected_activity = RejectedActivity.objects.create(
+                        dogsitter_id=my_activity.user_id,
+                        activity_date=my_activity.activity_date,
+                        activity_start=my_activity.activity_start,
+                        activity_end=my_activity.activity_end,
+                    )
+                    new_rejected_activity.save()
+                    new_service_rejected = ServiceRejected.objects.create(
+                        dog_owner_id=i.requesting_user,
+                        rejected_activity_id=new_rejected_activity
+                    )
+                    new_service_rejected.save()
             service_request.delete()
             activity.delete()
             messages.success(request, f'The service request approved successfully! and new meeting has been created!')

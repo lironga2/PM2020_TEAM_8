@@ -1,5 +1,8 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% block page-title %}
+    View dog sitters users
+{% endblock page-title %}
 {% block content %}
 <h2>List of dog sitter users: </h2>
     {% for i in list %}

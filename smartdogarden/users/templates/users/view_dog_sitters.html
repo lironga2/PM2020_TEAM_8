@@ -3,12 +3,21 @@
 {% block content %}
 <h1>List of dog sitters</h1>
 {% for i in list %}
-<pre>
-    user name: {{ i.username }},
-    first name: {{ i.first_name }},
-    last name: {{ i.last_name }}.
-    phone number: {{ i.phone_number}}
-</pre>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <p>
+                            <p>
+                                user name: {{ i.username }}
+                            </p>
+                            <p>
+                                first name: {{ i.first_name }} , last name: {{ i.last_name }}.
+                            </p>
+                            <p>
+                                phone number: {{ i.phone_number}}
+                            </p>
+                        </p>
+                    </div>
+                </article>
 {% endfor %}
 
 {% endblock content %}

@@ -1,17 +1,33 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% block page-title %}
+    Service reqests
+{% endblock page-title %}
 {% block content %}
 <h2>MY SERVICE REQUESTS:</h2>
     {% for i in list %}
-                    <p>
-                        <form method="get" action="/meeting_approval/">
-                            Date: {{ i.activity_id.activity_date }} - start hour: {{ i.activity_id.activity_start }} - end hour: {{ i.activity_id.activity_end }} Dog Owner Details: first name: {{ i.requesting_user.first_name }} - last name: {{ i.requesting_user.last_name }} - phonenumber: {{ i.requesting_user.phone_number }}<a class="btn btn-outline-info" href="{% url 'meeting_approval' %}?service_request={{ i.id }}">Approve</a>
-                            <form method="get" action="/meeting_rejected/">
-                                <a class="btn btn-outline-info" href="{% url 'meeting_rejected' %}?service_request={{ i.id }}">Reject</a>
-                            </form>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <p>
+                            <form method="get" action="/meeting_approval/">
+                                <p>
+                                    Date: {{ i.activity_id.activity_date }} , : {{ i.activity_id.activity_start }} -  {{ i.activity_id.activity_end }}
+                                </p>
+                                <p>
+                                Dog Owner: first name: {{ i.requesting_user.first_name }} , last name: {{ i.requesting_user.last_name }}
+                                </p>
+                                <p>
+                                    phonenumber: {{ i.requesting_user.phone_number }}
+                                </p>
+                                <a class="btn btn-outline-info" href="{% url 'meeting_approval' %}?service_request={{ i.id }}">Approve</a>
+                                <form method="get" action="/meeting_rejected/">
+                                    <a class="btn btn-outline-info" href="{% url 'meeting_rejected' %}?service_request={{ i.id }}">Reject</a>
+                                </form>
 
-                        </form>
-                    </p>
+                            </form>
+                        </p>
+                    </div>
+                </article>
 
 
 

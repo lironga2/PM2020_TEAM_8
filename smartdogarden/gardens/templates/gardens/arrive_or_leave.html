@@ -1,14 +1,21 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% block page-title %}
+    Arrive\Leave garden
+{% endblock page-title %}
 {% block content %}
             {% for i in list %}
-                    <p>
-                        <form method="get" action="/view_test/">
-                            <a class="gname">{{ i.name }}</a>
-                            <a class="btn btn-outline-info"  href="{% url 'view_test' %}?gname={{ i.name }}" >Arrive</a>
-                            <a class="btn btn-outline-info"  href="{% url 'view_test' %}?gname=Leave">Leave</a>
-                        </form>
-                    </p>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <p>
+                            <form method="get" action="/view_test/">
+                                <a class="gname">{{ i.name }}</a>
+                                <a class="btn btn-outline-info"  href="{% url 'view_test' %}?gname={{ i.name }}" >Arrive</a>
+                                <a class="btn btn-outline-info"  href="{% url 'view_test' %}?gname=Leave">Leave</a>
+                            </form>
+                        </p>
+                    </div>
+                </article>
             {% endfor %}
 {% endblock content %}
 
