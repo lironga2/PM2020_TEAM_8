@@ -723,6 +723,34 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(the_hazard)
         the_hazard.delete()
 
+    def test_integration_add_and_delete_dogsitter_activity_time(self):
+        new_dog_sitter_for_test = Account.objects.create(
+            username="test_dogsitter",
+            email="test_confrim_re@testconfrimre.testconfrimre",
+            password='pbkdf2_sha256$180000$zZwGjD6j2MAe$PYA0uuF0t6ci/384ULDJLrQD2hoY/YfideKHYRZPm6A=',
+            first_name="test_first_name",
+            last_name="test_last_name",
+            user_id="7462015",
+            phone_number="1549621954",
+            is_dog_sitter="1"
+        )
+        new_dog_sitter_for_test.save()
+        dog_sitter = Account.objects.filter(username="test_dogsitter").first()
+        dog_sitter_activity = ActivityTimeDogSitter.objects.create(
+            username=dog_sitter.username,
+            activity_date="2012-12-12",
+            activity_start="08:30",
+            activity_end="11:30",
+            user_id=dog_sitter
+        )
+        dog_sitter_activity.save()
+        activity_id = dog_sitter_activity.id
+        dog_sitter_activity.delete()
+        dog_sitter_activity = ActivityTimeDogSitter.objects.filter(id=activity_id)
+        self.assertFalse(dog_sitter_activity)
+        new_dog_sitter_for_test.delete()
+
+
 
 
 
