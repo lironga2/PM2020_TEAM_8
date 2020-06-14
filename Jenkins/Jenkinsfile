@@ -23,7 +23,7 @@ pipeline {
                     //sh 'pip install pep8'
                     //sh 'pip install pyflakes'
                     //sh 'pip install pylint'
-                    sh 'pip3 install --user -r requirements.txt'
+                    sh 'pip3 install --user -r smartdogarden/requirements.txt'
                     sh 'cd smartdogarden && python manage.py jenkins home.tests_all --enable-coverage'
                 }
             }
