@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
     <div class="content-section">
         <form method="POST">
@@ -13,13 +14,13 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">
-                    Sign Up
+                    <img src="{% static 'home/img/signup.png' %}" style="height: 50px; width: 160px;"/></a>
                 </button>
             </div>
               <div class ="border-top pt-3">
                 <small class="text-muted">
                     Already have an account?
-                    <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+                    <a class="ml-2" href="{% url 'login' %}"><img src="{% static 'home/img/signin.png' %}" style="height: 50px; width: 160px;"/></a></a>
                 </small>
             </div>
         </form>
