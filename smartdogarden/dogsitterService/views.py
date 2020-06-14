@@ -26,6 +26,9 @@ def add_activity_time(request):
             myactivities = allactivities.filter(user_id=id)
             my_meetings = MeetingsActivity.objects.filter(dogsitter_id=id)
             # need to create bool function for this check..
+            if form.cleaned_data['activity_start'] > form.cleaned_data['activity_end']:
+                messages.warning(request, f'Activity start cant be later then activity end!')
+                return redirect('add_activity_time')
             for i in myactivities:
                 if i.activity_date == form.cleaned_data['activity_date']:
                     if form.cleaned_data['activity_start'] > i.activity_start and form.cleaned_data[
