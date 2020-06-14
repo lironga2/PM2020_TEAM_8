@@ -40,7 +40,7 @@ def add_activity_time(request):
                     if form.cleaned_data['activity_start'] < i.activity_start and \
                             form.cleaned_data['activity_end'] > i.activity_start:
                         messages.warning(request, f'Activity time is overlapped!')
-                        return redirect('view_my_meetings_dogsitter')
+                        return redirect('add_activity_time')
 
             for i in my_meetings:
                 if i.activity_date == form.cleaned_data['activity_date']:

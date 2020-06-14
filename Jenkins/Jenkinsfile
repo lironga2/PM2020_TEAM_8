@@ -18,11 +18,12 @@ pipeline {
         stage('Test') {
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'pip install django_jenkins'
-                    sh 'pip install \'coverage==4.5.4\''
-                    sh 'pip install pep8'
-                    sh 'pip install pyflakes'
-                    sh 'pip install pylint'
+                    //sh 'pip install django_jenkins'
+                    //sh 'pip install \'coverage==4.5.4\''
+                    //sh 'pip install pep8'
+                    //sh 'pip install pyflakes'
+                    //sh 'pip install pylint'
+                    sh 'pip3 install --user -r requirements.txt'
                     sh 'cd smartdogarden && python manage.py jenkins home.tests_all --enable-coverage'
                 }
             }
