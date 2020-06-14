@@ -37,6 +37,10 @@ def add_activity_time(request):
                         'activity_end'] == i.activity_end:
                         messages.warning(request, f'Activity time already exists!')
                         return redirect('add_activity_time')
+                    if form.cleaned_data['activity_start'] < i.activity_start and \
+                            form.cleaned_data['activity_end'] > i.activity_start:
+                        messages.warning(request, f'Activity time is overlapped!')
+                        return redirect('view_my_meetings_dogsitter')
 
             for i in my_meetings:
                 if i.activity_date == form.cleaned_data['activity_date']:
@@ -49,6 +53,10 @@ def add_activity_time(request):
                         'activity_end'] == i.activity_end:
                         messages.warning(request, f'Activity time already exists!')
                         return redirect('add_activity_time')
+                    if form.cleaned_data['activity_start'] < i.activity_start and \
+                            form.cleaned_data['activity_end'] > i.activity_start:
+                        messages.warning(request, f'Activity time is overlapped!')
+                        return redirect('view_my_meetings_dogsitter')
 
             activity_d_s = ActivityTimeDogSitter.objects.create(
                 activity_date=form.cleaned_data['activity_date'],
@@ -284,6 +292,7 @@ def update_meeting(request):
             if form.cleaned_data['activity_start'] > form.cleaned_data['activity_end']:
                 messages.warning(request, f'Activity start cant be later then activity end!')
                 return redirect('view_my_meetings_dogsitter')
+
             if i.activity_date == meeting_date:
                 if i.id != meeting_activity.id and form.cleaned_data['activity_start'] > i.activity_start and \
                         form.cleaned_data[
@@ -296,6 +305,10 @@ def update_meeting(request):
                         form.cleaned_data[
                             'activity_end'] == i.activity_end and i.id != meeting_activity.id:
                     messages.warning(request, f'Activity time already exists!')
+                    return redirect('view_my_meetings_dogsitter')
+                if form.cleaned_data['activity_start'] < i.activity_start and \
+                        form.cleaned_data['activity_end'] > i.activity_start and i.id != meeting_activity.id:
+                    messages.warning(request, f'Activity time is overlapped!')
                     return redirect('view_my_meetings_dogsitter')
 
         for i in my_meetings:
@@ -311,6 +324,10 @@ def update_meeting(request):
                 if i.id != meeting_activity.id and form.cleaned_data['activity_start'] == i.activity_start or form.cleaned_data[
                     'activity_end'] == i.activity_end and i.id != meeting_activity.id:
                     messages.warning(request, f'Activity time already exists!')
+                    return redirect('view_my_meetings_dogsitter')
+                if form.cleaned_data['activity_start'] < i.activity_start and \
+                        form.cleaned_data['activity_end'] > i.activity_start and i.id != meeting_activity.id:
+                    messages.warning(request, f'Activity time is overlapped!')
                     return redirect('view_my_meetings_dogsitter')
 
         #meeting_activity.activity_date = form.cleaned_data['activity_date']
